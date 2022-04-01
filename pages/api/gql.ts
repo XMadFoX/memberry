@@ -1,21 +1,31 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import dbConnect from '../../lib/dbConnect';
+import register from '../../gql/resolvers/mutations/register';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const typeDefs = gql`
   type Query {
-    hello: String
+  type Mutation {
+    register(username: String!, email: String!, password: String!): String!
   }
 `;
 
 const resolvers = {
   Query: {},
+  Mutation: {
+    register,
+  },
 };
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
 const startServer = apolloServer.start();
 
-export default async function handler(req: any, res: any) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await dbConnect();
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(

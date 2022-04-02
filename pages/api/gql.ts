@@ -11,15 +11,26 @@ import { req, JwtPayload } from '@lib/types';
 
 const typeDefs = gql`
   type Query {
+    me: User
+  }
   type Mutation {
     register(username: String!, email: String!, password: String!): String!
     login(email: String!, password: String!): String!
   }
+  type User {
+    _id: String
+    username: String
+    email: String
   }
 `;
 
 const resolvers = {
-  Query: {},
+  Query: {
+    me: async (parent: any, args: any, context: any) => {
+      if (!context.req.user) return null;
+      return context.req.user;
+    },
+  },
   Mutation: {
     register,
     login,
@@ -28,15 +39,19 @@ const resolvers = {
 
 const context = async ({ req, res }: { req: req; res: NextApiResponse }) => {
   if (req.cookies.token) {
-    const payload: JwtPayload = jwt.verify(
-      req.cookies.token,
-      process.env.JWT_SECRET!
-    ) as JwtPayload;
-    const user = await User.findOne({
-      _id: payload.userId,
-    });
-    if (user && (await bcrypt.compare(payload.password, user.password)))
-      req.user = user;
+    try {
+      const payload: JwtPayload = jwt.verify(
+        req.cookies.token,
+        process.env.JWT_SECRET!
+      ) as JwtPayload;
+      const user = await User.findOne({
+        _id: payload.userId,
+      });
+      if (user && (await bcrypt.compare(payload.password, user.password)))
+        req.user = user;
+    } catch (err) {
+      console.log(err);
+    }
   }
   return {
     req,

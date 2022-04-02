@@ -15,6 +15,7 @@ specifiers:
   '@types/cookie': ^0.4.1
   '@types/jsonwebtoken': ^8.5.8
   '@types/node': ^17.0.23
+  '@types/nodemailer': ^6.4.4
   '@types/react': ^17.0.43
   '@types/react-dom': ^17.0.14
   '@urql/preact': ^2.0.3
@@ -31,6 +32,7 @@ specifiers:
   mongoose: ^6.2.9
   next: 12.1.4
   next-plugin-preact: ^3.0.6
+  nodemailer: ^6.7.3
   preact: ^10.7.0
   preact-render-to-string: ^5.1.20
   prettier: ^2.6.1
@@ -61,6 +63,7 @@ dependencies:
   mongoose: 6.2.9
   next: 12.1.4_548655dbd424c8460de8eda6dbc442f7
   next-plugin-preact: 3.0.6_a2c7c69d7d13c4924eaea4df113ce803
+  nodemailer: 6.7.3
   preact: 10.7.0
   preact-render-to-string: 5.1.20_preact@10.7.0
   prettier: 2.6.1
@@ -77,6 +80,7 @@ devDependencies:
   '@types/cookie': 0.4.1
   '@types/jsonwebtoken': 8.5.8
   '@types/node': 17.0.23
+  '@types/nodemailer': 6.4.4
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
   eslint: 8.12.0
@@ -1505,6 +1509,12 @@ packages:
 
   /@types/node/17.0.23:
     resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==}
+
+  /@types/nodemailer/6.4.4:
+    resolution: {integrity: sha512-Ksw4t7iliXeYGvIQcSIgWQ5BLuC/mljIEbjf615svhZL10PE9t+ei8O9gDaD3FPCasUJn9KTLwz2JFJyiiyuqw==}
+    dependencies:
+      '@types/node': 17.0.23
+    dev: true
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -4598,6 +4608,11 @@ packages:
 
   /node-releases/2.0.2:
     resolution: {integrity: sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg==}
+
+  /nodemailer/6.7.3:
+    resolution: {integrity: sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /nopt/5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}

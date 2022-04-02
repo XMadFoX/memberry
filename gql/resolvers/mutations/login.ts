@@ -27,12 +27,13 @@ export default async function loginMutation(
   // try to find user in DB
   const user = await User.findOne({ email });
   if (!user) throw new UserInputError('User not found');
+  if (!user.confirmed) throw new UserInputError('User is not confirmed');
   // check password
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) throw new UserInputError('Invalid password');
   // generate JWT token
-  const token = await jwt.sign(
-    { userId: user.id, password },
+  const token = jwt.sign(
+    { userId: user.id, password: user.password },
     process.env.JWT_SECRET!,
     {
       expiresIn: '90d',

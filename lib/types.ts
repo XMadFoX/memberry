@@ -6,7 +6,7 @@ export interface req extends NextApiRequest {
   user?: typeof User;
 }
 
-export interface JwtPayload extends _jwtPayload {
+export interface JwtPayloadAuthorization extends _jwtPayload {
   userId: string;
   password: string;
 }

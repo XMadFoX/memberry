@@ -16,6 +16,17 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password.'],
   },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
+  expiresAt: {
+    type: Date,
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

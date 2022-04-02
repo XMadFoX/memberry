@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '@models/User';
-import { req, JwtPayload } from '@lib/types';
+import { req, JwtPayloadAuthorization } from '@lib/types';
 
 const typeDefs = gql`
   type Query {
@@ -40,10 +40,10 @@ const resolvers = {
 const context = async ({ req, res }: { req: req; res: NextApiResponse }) => {
   if (req.cookies.token) {
     try {
-      const payload: JwtPayload = jwt.verify(
+      const payload: JwtPayloadAuthorization = jwt.verify(
         req.cookies.token,
         process.env.JWT_SECRET!
-      ) as JwtPayload;
+      ) as JwtPayloadAuthorization;
       const user = await User.findOne({
         _id: payload.userId,
       });

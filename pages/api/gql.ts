@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
-import dbConnect from '../../lib/dbConnect';
-import register from '../../gql/resolvers/mutations/register';
+import dbConnect from '@lib/dbConnect';
+import register from '@gql/resolvers/mutations/register';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 

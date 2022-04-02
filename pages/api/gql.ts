@@ -26,7 +26,25 @@ const resolvers = {
   },
 };
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const context = async ({ req, res }: { req: req; res: NextApiResponse }) => {
+  if (req.cookies.token) {
+    const payload: JwtPayload = jwt.verify(
+      req.cookies.token,
+      process.env.JWT_SECRET!
+    ) as JwtPayload;
+    const user = await User.findOne({
+      _id: payload.userId,
+    });
+    if (user && (await bcrypt.compare(payload.password, user.password)))
+      req.user = user;
+  }
+  return {
+    req,
+    res,
+  };
+};
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context });
 
 const startServer = apolloServer.start();
 

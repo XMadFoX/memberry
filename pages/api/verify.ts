@@ -10,7 +10,6 @@ interface JwtPayloadVerify extends JwtPayload {
   email: string;
 }
 
-console.log('Init /api/verify');
 dbConnect();
 
 export default async function handler(req: req, res: NextApiResponse) {
@@ -34,7 +33,10 @@ export default async function handler(req: req, res: NextApiResponse) {
       return;
     }
     // if everything is ok, confirm user
-    User.findOneAndUpdate({ _id: user._id }, { $set: { confirmed: true } });
+    await User.findOneAndUpdate(
+      { email: user.email },
+      { $set: { confirmed: true } }
+    );
     // generate auth token
     const authToken = jwt.sign(
       { userId: user.id, password: user.password },

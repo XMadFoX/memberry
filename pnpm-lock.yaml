@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@babel/core': ^7.17.8
+  '@babel/plugin-transform-react-jsx-source': ^7.16.7
   '@mantine/core': ^4.1.1
   '@mantine/dates': ^4.1.1
   '@mantine/form': ^4.1.1
@@ -77,6 +78,7 @@ dependencies:
 
 devDependencies:
   '@babel/core': 7.17.8
+  '@babel/plugin-transform-react-jsx-source': 7.16.7_@babel+core@7.17.8
   '@prefresh/babel-plugin': 0.4.3
   '@prefresh/webpack': 3.3.3_2419221576cb80e7990e744403dfb102
   '@types/bcrypt': 5.0.0
@@ -332,7 +334,6 @@ packages:
   /@babel/helper-plugin-utils/7.16.7:
     resolution: {integrity: sha512-Qg3Nk7ZxpgMrsox6HreY1ZNKdBq7K72tDSliA6dCl5f007jR4ne8iD5UzuNnCJH2xBf2BEEVGr+/OL6Gdp7RxA==}
     engines: {node: '>=6.9.0'}
-    dev: false
 
   /@babel/helper-remap-async-to-generator/7.16.8:
     resolution: {integrity: sha512-fm0gH7Flb8H51LqJHy3HJ3wnE1+qtYR2A99K06ahwrawLdOFsCEWjZOrYricXJHoPSudNKxrMBUPEIPxiIIvBw==}
@@ -1059,6 +1060,16 @@ packages:
       '@babel/core': 7.17.8
       '@babel/helper-plugin-utils': 7.16.7
     dev: false
+
+  /@babel/plugin-transform-react-jsx-source/7.16.7_@babel+core@7.17.8:
+    resolution: {integrity: sha512-rONFiQz9vgbsnaMtQlZCjIRwhJvlrPET8TabIUK2hzlXw9B9s2Ieaxte1SCOOXMbWRHodbKixNf3BLcWVOQ8Bw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.17.8
+      '@babel/helper-plugin-utils': 7.16.7
+    dev: true
 
   /@babel/plugin-transform-regenerator/7.16.7_@babel+core@7.17.8:
     resolution: {integrity: sha512-mF7jOgGYCkSJagJ6XCujSQg+6xC1M77/03K2oBmVJWoFGNUtnVJO4WHKJk3dnPC8HCcj4xBQP1Egm8DWh3Pb3Q==}

@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
+    "@babel/plugin-transform-react-jsx-source": "^7.16.7",
     "@prefresh/babel-plugin": "^0.4.3",
     "@prefresh/webpack": "^3.3.3",
     "@types/bcrypt": "^5.0.0",

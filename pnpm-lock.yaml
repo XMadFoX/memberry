@@ -19,7 +19,6 @@ specifiers:
   '@types/nodemailer': ^6.4.4
   '@types/react': ^17.0.43
   '@types/react-dom': ^17.0.14
-  '@urql/preact': ^2.0.3
   apollo-server-micro: ^3.6.7
   babel-loader: ^8.2.4
   bcrypt: ^5.0.1
@@ -54,7 +53,6 @@ dependencies:
   '@mantine/modals': 4.1.1_3d79efe3df83573740046021e3c9849e
   '@mantine/next': 4.1.1_6e3228ec86f318d781f115cb96b7c12d
   '@mantine/notifications': 4.1.1_3d79efe3df83573740046021e3c9849e
-  '@urql/preact': 2.0.3_graphql@16.3.0+preact@10.7.0
   apollo-server-micro: 3.6.7_graphql@16.3.0+micro@9.3.4
   bcrypt: 5.0.1
   cookie: 0.4.2
@@ -2578,18 +2576,6 @@ packages:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.3.0
       graphql: 16.3.0
-      wonka: 4.0.15
-    dev: false
-
-  /@urql/preact/2.0.3_graphql@16.3.0+preact@10.7.0:
-    resolution: {integrity: sha512-/dOKVau0dxRnPX7xwm0yhLwDkiPpNNRHDPVaq21NBAon7J+BhcP6+ckHzcQoyyl1BapGFQCqnxpW9ddceGLcpw==}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-      preact: '>= 10.0.0'
-    dependencies:
-      '@urql/core': 2.4.3_graphql@16.3.0
-      graphql: 16.3.0
-      preact: 10.7.0
       wonka: 4.0.15
     dev: false
 

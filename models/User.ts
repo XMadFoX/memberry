@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password.'],
   },
+  birthday: {
+    type: Date,
+    required: [true, 'Please provide a birth date.'],
+  },
   confirmed: {
     type: Boolean,
     default: false,

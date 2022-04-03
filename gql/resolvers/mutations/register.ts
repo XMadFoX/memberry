@@ -9,6 +9,7 @@ interface args {
   username: string;
   email: string;
   password: string;
+  birthday: string;
 }
 
 const transporter = nodemailer.createTransport({
@@ -32,6 +33,7 @@ export default async function registerMutation(
   context: any
 ) {
   const { username, email, password } = args;
+  const birthday = new Date(args.birthday);
   // verify username using regex
   if (!/^[A-z0-9_]{2,16}$/)
     throw new UserInputError(
@@ -60,6 +62,7 @@ export default async function registerMutation(
     username,
     email,
     password: passwordHash,
+    birthday,
     expiresAt: calcExpiration(),
   };
   const res = foundUser

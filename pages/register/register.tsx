@@ -1,13 +1,14 @@
-import styles from './register.module.css';
 import { TextInput, Button, Group, Box, Center } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import 'dayjs/locale/ru';
-import Link from 'next/link';
-
 import { useMutation } from 'urql';
 import { useState } from 'react';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import styles from './register.module.css';
+
+const Birthday = dynamic(() => import('@components/auth/birthday'));
+const EmailSent = dynamic(() => import('@components/auth/emailSent'));
+const Link = dynamic(() => import('next/link'));
 
 const RegisterMutation = `
   mutation ($username: String!, $email: String!, $password: String!, $birthday: Date!) {
@@ -17,7 +18,7 @@ const RegisterMutation = `
 
 export default function Register() {
   const [registerResult, register] = useMutation(RegisterMutation);
-  const [birthday, setBirthday] = useState<Date | null>();
+  const [birthday, setBirthday] = useState<Date | null>(null);
 
   const form = useForm<{
     username: string;
@@ -61,30 +62,14 @@ export default function Register() {
 
   const handleSubmit = (values: typeof form.values) => {
     register({ ...values, birthday, confirmPassword: undefined });
+    localStorage.setItem('birthday', JSON.stringify(birthday));
   };
 
   return (
     <div className="container">
       <Center className={styles.form_block}>
         <Box className={styles.form_container}>
-          {registerResult?.data?.register === 'ok' && (
-            <div
-              style={{
-                display: 'grid',
-                alignItems: 'center',
-                justifyItems: 'center',
-              }}>
-              <h1>Письмо отправлено</h1>
-              <p>Проверьте почту для подтверждения регистрации</p>
-              <small>Письмо действительно 5 минут.</small>
-              <Image
-                src="/ullustrations/undraw_mail_sent_re_0ofv.svg"
-                alt=""
-                height={256}
-                width={256}
-              />
-            </div>
-          )}
+          {registerResult?.data?.register === 'ok' && <EmailSent />}
           {registerResult?.data?.register !== 'ok' && (
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <h1 className={styles.title}>Регистрация</h1>
@@ -92,6 +77,7 @@ export default function Register() {
                 label="Почта"
                 type="email"
                 name="email"
+                required
                 placeholder="your@email.com"
                 disabled={registerResult.fetching}
                 {...form.getInputProps('email')}
@@ -100,26 +86,20 @@ export default function Register() {
                 label="Имя пользователя"
                 type="text"
                 name="username"
+                required
                 placeholder="Иван"
                 disabled={registerResult.fetching}
                 {...form.getInputProps('username')}
               />
-              <DatePicker
-                locale="ru"
-                allowFreeInput
+              <Birthday
+                fetching={registerResult.fetching}
                 value={birthday}
-                name="dob"
-                onChange={setBirthday}
-                placeholder="Выберите дату"
-                disabled={registerResult.fetching}
-                label="Дата рождения"
+                setValue={setBirthday}
               />
-              <small style={{ opacity: 0.5 }}>
-                Эта информация будет использована для адаптации сложности
-              </small>
               <TextInput
                 label="Пароль"
                 name="password"
+                required
                 type="password"
                 placeholder="Qwerty1234"
                 disabled={registerResult.fetching}
@@ -128,12 +108,12 @@ export default function Register() {
               <TextInput
                 label="Подтвердите пароль"
                 name="passwordConfirm"
+                required
                 type="password"
                 placeholder="Qwerty1234"
                 disabled={registerResult.fetching}
                 {...form.getInputProps('confirmPassword')}
               />
-
               <Group position="center" direction="column" spacing="xs" mt="md">
                 <Button type="submit" disabled={registerResult.fetching}>
                   {registerResult.fetching

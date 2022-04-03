@@ -60,7 +60,6 @@ export default function Register() {
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    console.dir(values);
     register({ ...values, birthday, confirmPassword: undefined });
   };
 

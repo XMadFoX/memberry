@@ -10,61 +10,149 @@ export default function Bushes() {
   const [order, setOrder] = useState<number[]>([]); // array of indexes
 
   const [userTurn, setUserTurn] = useState(false);
+  const [lockGame, setLockGame] = useState(false);
   const [userOrder, setUserOrder] = useState<number[]>([]);
 
   const [failIdx, setFailIdx] = useState(-1);
   const [rightIdx, setRightIdx] = useState(-1);
   const [userRightIdx, setUserRightIdx] = useState(-1);
 
-  const play = () => {
-    console.log(order.length);
-    if (order.length > 4) {
-      setUserTurn(true);
-    } else {
-      //reset
-      const bush = getRandomIntMinMax(0, bushes);
-      setHighlight(bush);
-      setTimeout(() => setHighlight(-1), 1000);
-      setOrder((order) => [...order, bush]);
-    }
+  const [max, setMax] = useState(3); //max steps count
+  const [score, setScore] = useState(0); //max steps count
+
+  const [lose, setLose] = useState<boolean>();
+
+  const highlightBush = (idx: number) => {
+    setHighlight(idx);
   };
 
   useEffect(() => {
-    if (userTurn) return;
+    setRightIdx(-1);
+  }, [userTurn]);
+
+  const showNewBush = () => {
+    //reset
+    const bush = getRandomIntMinMax(0, bushes);
+    setHighlight(bush);
+    setLockGame(true);
+    setTimeout(() => {
+      setHighlight(-1);
+      setUserTurn(true);
+      setLockGame(false);
+    }, 1000);
+    setOrder((order) => [...order, bush]);
+  };
+
+  const replayPrevious = () => {
+    setRightIdx(-1);
+    console.log(`replay ${order.length}`);
+    let targetIdx = 0;
+    let it = setInterval(() => {
+      if (targetIdx > order.length) {
+        // exit interval
+        clearInterval(it);
+        setTimeout(() => showNewBush(), 100);
+      }
+      highlightBush(order[targetIdx]);
+      targetIdx++;
+    }, 1000);
+  };
+
+  const play = () => {
+    console.log('play');
+    if (order.length > max - 1) {
+      setUserTurn(true);
+    } else {
+      if (order.length > 0) replayPrevious();
+      else showNewBush();
+    }
+  };
+
+  const finishGame = () => {
+    console.log('finished');
+    setTimeout(() => {
+      setOrder([]);
+      setUserOrder([]);
+      setFailIdx(-1);
+      setRightIdx(-1);
+      setUserTurn(false);
+      setMax(max + 1);
+      setScore(score + 100);
+    }, 2000);
+  };
+
+  const continueGame = () => {
+    setOrder([]);
+    setUserOrder([]);
+    setFailIdx(-1);
+    setRightIdx(-1);
+    setScore(0);
+    setLockGame(false);
+    setLose(false);
+  };
+
+  const failGame = (rightIdx: number, failIdx: number) => {
+    console.log('failed');
+    setLockGame(true);
+    setUserTurn(false);
+    setFailIdx(rightIdx);
+    setRightIdx(failIdx);
+    setLose(true);
+  };
+
+  // when ai turns/user turns
+  useEffect(() => {
+    if (userTurn || lockGame) return;
     setTimeout(() => play(), 1000);
   }, [order, userTurn]);
 
+  // when user clickes on bush
   useEffect(() => {
-    const idx = userOrder.length - 1;
-    if (userOrder[idx] !== order[idx]) {
-      setRightIdx(order[idx]);
-      setFailIdx(userOrder[idx]);
-      console.log(`fail, ${userOrder[idx]} !== ${order[idx]}`);
-    } else {
-      setRightIdx(-1);
-      setFailIdx(-1);
-      setUserRightIdx(userOrder[idx]);
-      console.log('success');
-    }
-    if (idx >= 4) {
-      console.log('finished');
-      setUserTurn(false);
-      setTimeout(() => {
-        setOrder([]);
-        setUserOrder([]);
-      }, 2000);
-    }
+    userOrder.forEach((i, idx) => {
+      if (i === order[idx]) {
+        console.log('nice');
+        setRightIdx(-1);
+        setFailIdx(-1);
+        setUserRightIdx(userOrder[idx]);
+        setScore(score + 10);
+        // if final item
+        if (idx === order.length - 1) {
+          setUserTurn(false);
+          setUserOrder([]);
+        }
+        if (idx >= max - 1) {
+          finishGame();
+        }
+      } else {
+        console.log(`failed ${i}[${idx}, ${order[idx]}]`);
+        failGame(userOrder[idx], order[idx]);
+      }
+    });
   }, [userOrder]);
 
   return (
     <div className={styles.container}>
       <p>
-        order: {JSON.stringify(order)} ({order.length})
+        order: {JSON.stringify(order)} (now: {order.length}, max: {max})
       </p>
       <p>
         user order: {JSON.stringify(userOrder)} {userOrder.length}
       </p>
-      {userTurn && <h2>Now you</h2>}
+      <p>Счёт: {score}</p>
+      <h2>
+        {lose ? (
+          <>
+            <p>Вы проиграли</p>
+            <button type="button" onClick={() => continueGame()}>
+              Продолжить
+            </button>
+          </>
+        ) : userTurn ? (
+          'Воспроизведи последовательность'
+        ) : (
+          'Запомни последовательность'
+        )}
+      </h2>
       <div className={styles.game_container}>
         {[...Array(bushes)].map((bush, index) => (
           <button

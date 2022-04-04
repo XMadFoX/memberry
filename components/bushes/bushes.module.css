@@ -1,5 +1,5 @@
 .container {
-  border: #000 solid 2px;
+  text-align: center;
 }
 
 .game_container {
@@ -24,14 +24,22 @@
   transition: background-color transform 0.5s;
 }
 
+.bush:hover {
+  transform: scale(1.05);
+  transition: background-color transform 0.25s ease-in;
+}
+.bush:focus:not(:active) {
+  animation: scaleUpDown 0.3s ease-in;
+}
+
 .bush_highlight {
-  background-color: blueviolet;
+  background-color: blueviolet !important;
   transform: scale(1.2);
-  animation: shake 15 0.3s ease-in-out;
+  animation: shake 15 0.3s ease-in-out !important;
 }
 
 .bush_fail {
-  background-color: red;
+  background-color: red !important;
   transform: scale(0.95);
   animation: bush_fail 2 0.5s;
 }
@@ -42,8 +50,7 @@
 }
 
 .bush_ok {
-  background-color: green;
-  animation: scaleUpDown 0.2s;
+  background-color: rgb(8, 170, 8);
 }
 
 @keyframes scaleUpDown {

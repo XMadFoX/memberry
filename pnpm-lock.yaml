@@ -27,6 +27,7 @@ specifiers:
   eslint: 8.12.0
   eslint-config-next: 12.1.4
   graphql: ^16.3.0
+  husky: ^7.0.4
   jest: ^27.5.1
   jsonwebtoken: ^8.5.1
   micro: ^9.3.4
@@ -89,6 +90,7 @@ devDependencies:
   babel-loader: 8.2.4_bb1d6ba6264b4355cd74ff79826974dc
   eslint: 8.12.0
   eslint-config-next: 12.1.4_fab470334d1cc33786399cd971ce0917
+  husky: 7.0.4
   typescript: 4.6.3
   webpack: 5.71.0
 
@@ -4473,6 +4475,12 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
     dev: false
+
+  /husky/7.0.4:
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
+    hasBin: true
+    dev: true
 
   /iconv-lite/0.4.19:
     resolution: {integrity: sha512-oTZqweIP51xaGPI4uPa56/Pri/480R+mo7SeU+YETByQNhDG55ycFyNLIgta9vXhILrxXDmF7ZGhqZIcuN0gJQ==}

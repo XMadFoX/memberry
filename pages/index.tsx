@@ -17,7 +17,7 @@ function countSliderItem (parent:any,child:any) {
 }
 
 const Start: NextPage = () => {
-  const [item, setItem] = useState<any>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [item, setItem] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const slider = useRef(null)
   const slider_block = useRef(null)
   const slider__item = useRef(null)
@@ -123,8 +123,8 @@ const Start: NextPage = () => {
             </button>
             <nav className={styles.slider} ref = {slider_block}>
               <div className={styles.slider_track} ref = {slider}>
-                {item.map(() => {
-                  return <div className={styles.slider__item} ref = {slider__item}></div>;
+                {item.map((i) => {
+                  return <div key={i} className={styles.slider__item} ref = {slider__item}></div>;
                 })}
               </div>
               <button

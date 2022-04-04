@@ -1,11 +1,19 @@
 import styles from './gameBlock.module.css';
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 function gameBlock({children}: {children: React.ReactChild}) {
   return (
     <div className={styles.game_page}>
       <div className={styles.container}>
-        <div className={styles.header}></div>
+        <div className={styles.header}>
+          <div className={styles.leave}>
+            <Link href="/">
+              <span></span>
+            </Link>
+            
+          </div>
+        </div>
         <div className={styles.main}>
           <div className={styles.heart}>
             <div className={styles.heart_block}>

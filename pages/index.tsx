@@ -87,34 +87,34 @@ const Start: NextPage = () => {
             <nav className={styles.nav}>
               <ul className={styles.levels}>
                 <li className={styles.levels__element}>
-                  <Link href="game/rememberCard">1</Link>
+                  <Link href="game/rememberCard"><span>1</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">2</Link>
+                  <Link href="#"><span>2</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active} >
-                  <Link href="#">3</Link>
+                  <Link href="#"><span>3</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">4</Link>
+                  <Link href="#"><span>4</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">5</Link>
+                  <Link href="#"><span>5</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">6</Link>
+                  <Link href="#"><span>6</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">7</Link>
+                  <Link href="#"><span>7</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">8</Link>
+                  <Link href="#"><span>8</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">9</Link>
+                  <Link href="#"><span>9</span></Link>
                 </li>
                 <li className={styles.levels__element + " " + styles.not_active}>
-                  <Link href="#">10</Link>
+                  <Link href="#"><span>10</span></Link>
                 </li>
               </ul>
             </nav>

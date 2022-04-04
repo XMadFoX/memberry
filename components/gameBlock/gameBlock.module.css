@@ -1,0 +1,68 @@
+.game_page {
+    min-height: 100vh;
+    background-image: url(../../public/img/game_backgroung.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.header {
+    margin: 0 auto; 
+    width: 316px;
+    height: 80px;
+    background: #8F5C49;
+    border: 6px solid #C1C1C1;
+    border-top: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 0px 45px 45px;
+}
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+.heart {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 80px;
+ 
+}
+.heart_block {
+    display: flex;
+    background: #95614D;
+    border: 3px solid #C1C1C1;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    max-width: 216px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    position: relative;
+}
+
+.playing_block {
+    margin: 0 auto;
+    background: #95614D;
+    border: 10px solid #C1C1C1;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.75);
+    border-radius: 55px;
+    max-width: 900px;
+    height: 500px;
+    position: relative;
+}
+.hero {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+.hero__item {
+    position: absolute;
+    top: -60px;
+}
+.hero__item:first-child {
+    left: 15px;
+    top: -105px;
+}
+.hero__item:last-child {
+    right: 15px;
+
+}

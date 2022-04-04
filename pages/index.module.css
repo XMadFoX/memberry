@@ -36,12 +36,14 @@
   gap: 15px;
 }
 .levels__element {
+  cursor: pointer;
   display: flex;
   background-color: #d2e646;
   border-radius: 100%;
   width: 73px;
   height: 73px;
   justify-content: center;
+  transition: 0.2s;
 
 }
 .levels__element.active {
@@ -55,13 +57,20 @@
   background-color: #E03838;
 }
 
-.levels__element a {
+.levels__element  span{
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-style: normal;
   font-weight: 400;
   font-size: 45px;
-  line-height: 79px;
+  line-height: 123px;
 }
 .btn {
+  cursor: pointer;
   max-width: 550px;
 
   background: #94604c;
@@ -93,10 +102,13 @@
   padding-left: 35px;
   display: flex;
   gap: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   overflow: hidden;
 }
 
 .slider__item {
+  cursor: pointer;
   transition: 0.4s;
   min-width: 235px;
   height: 194px;
@@ -107,6 +119,7 @@
 }
 
 .slider__button {
+  cursor: pointer;
   border: none;
   background-color: inherit;
   position: absolute;
@@ -114,10 +127,15 @@
   font-size: 80px;
 }
 .slider__prev {
+  cursor: pointer;
   left: -40px;
 }
 .slider__next {
+  cursor: pointer;                                                                                 
   right: -40px;
+}
+.levels__element:hover {
+  transform: scale(1.08);
 }
 
 @media (max-width: 1015px) {
@@ -309,7 +327,7 @@
     height: 55px;
   }
 
-  .levels__element a {
+  .levels__element span {
     line-height: 60px;
     font-size: 30px;
   }

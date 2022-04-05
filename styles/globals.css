@@ -1,6 +1,7 @@
 @font-face {
 	font-family: 'Moyenage'; 
-	src: url(../public/fonts/Moyenage.ttf); 
+	src: url(../public/fonts/Moyenage.ttf);
+  font-display: swap; 
 }
 
 html,

@@ -10,17 +10,17 @@ const Header: NextPage = () => {
       </div>
       <div className={styles.header__element}>
         <Link href="/1">
-          <Image src={`/icons/tabl top.svg`} height={32} width={32} />
+          <a><Image src={`/icons/tabl top.svg`} height={32} width={32}  alt = "tabl"/></a>
         </Link>
       </div>
       <div className={styles.header__element}>
         <Link href="/2">
-          <Image src={`/icons/shop.svg`} height={32} width={32} />
+          <a><Image src={`/icons/shop.svg`} height={32} width={32} alt = "shop"/></a>
         </Link>
       </div>
       <div className={styles.header__element}>
-        <Link href="">
-          <Image src={`/icons/user.svg`} height={32} width={32} />
+        <Link href="/3">
+          <a> <Image src={`/icons/user.svg`} height={32} width={32} alt = "user"/></a>
         </Link>
       </div>
     </header>

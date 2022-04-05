@@ -11,9 +11,11 @@
     justify-content: center;
     gap: 250px;
 }
+
 .header__element {
     width: 32px;
     height: 32px;
+    color: #fff;
 }
 
 @media (max-width: 1000px) {

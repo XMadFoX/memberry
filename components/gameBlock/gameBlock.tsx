@@ -2,7 +2,7 @@ import styles from './gameBlock.module.css';
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-function gameBlock({children}: {children: React.ReactChild}) {
+function gameBlock({ children }: { children: React.ReactChild }) {
   return (
     <div className={styles.game_page}>
       <div className={styles.container}>
@@ -11,45 +11,82 @@ function gameBlock({children}: {children: React.ReactChild}) {
             <Link href="/">
               <span></span>
             </Link>
-            
           </div>
         </div>
         <div className={styles.main}>
           <div className={styles.heart}>
             <div className={styles.heart_block}>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
             </div>
             <div className={styles.hero}>
               <div className={styles.hero__item}>
-                <Image src={`/game/knight.svg`} height={230} width={230} />
+                <Image
+                  src={`/game/knight.svg`}
+                  height={230}
+                  width={230}
+                  alt="Рыцарь"
+                />
               </div>
               <div className={styles.hero__item}>
-                <Image src={`/game/dragon.svg`} height={230} width={230} />
+                <Image
+                  src={`/game/dragon.svg`}
+                  height={230}
+                  width={230}
+                  alt="Враг: дракон"
+                />
               </div>
             </div>
             <div className={styles.heart_block}>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
               <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
+                <Image
+                  src={`/icons/heart.svg`}
+                  height={45}
+                  width={45}
+                  alt="жизнь"
+                />
               </div>
             </div>
           </div>
-          <div className={styles.playing_block}>
-            {children}
-          </div>
+          <div className={styles.playing_block}>{children}</div>
         </div>
       </div>
     </div>

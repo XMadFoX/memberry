@@ -9,11 +9,9 @@ body {
   margin: 0;
   font-family: "Moyenage";
   background-color: #f7f5fa;
-  background-image: url(../public/img/background.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-
+}
+* img {
+  user-select: none;
 }
 
 a {

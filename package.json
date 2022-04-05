@@ -18,7 +18,6 @@
     "@mantine/modals": "^4.1.1",
     "@mantine/next": "^4.1.1",
     "@mantine/notifications": "^4.1.1",
-    "@urql/preact": "^2.0.3",
     "apollo-server-micro": "^3.6.7",
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.2",
@@ -42,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
+    "@babel/plugin-transform-react-jsx-source": "^7.16.7",
     "@prefresh/babel-plugin": "^0.4.3",
     "@prefresh/webpack": "^3.3.3",
     "@types/bcrypt": "^5.0.0",

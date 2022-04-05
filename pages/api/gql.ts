@@ -10,11 +10,17 @@ import User from '@models/User';
 import { req, JwtPayloadAuthorization } from '@lib/types';
 
 const typeDefs = gql`
+  scalar Date
   type Query {
     me: User
   }
   type Mutation {
-    register(username: String!, email: String!, password: String!): String!
+    register(
+      username: String!
+      email: String!
+      password: String!
+      birthday: Date!
+    ): String!
     login(email: String!, password: String!): String!
   }
   type User {

@@ -1,0 +1,99 @@
+.container {
+  text-align: center;
+}
+
+.game_container {
+  height: 600px;
+  max-width: 600px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.bush {
+  background-color: rgb(3, 115, 3);
+  color: bisque;
+  font-weight: 600;
+  font-size: large;
+  border-width: 0;
+  border-radius: 1rem;
+  height: 100%;
+  width: 100%;
+  transition: background-color transform 0.5s;
+}
+
+.bush:hover {
+  transform: scale(1.05);
+  transition: background-color transform 0.25s ease-in;
+}
+.bush:focus:not(:active) {
+  animation: scaleUpDown 0.3s ease-in;
+}
+
+.bush_highlight {
+  background-color: blueviolet !important;
+  transform: scale(1.2);
+  animation: shake 15 0.3s ease-in-out !important;
+}
+
+.bush_fail {
+  background-color: red !important;
+  transform: scale(0.95);
+  animation: bush_fail 2 0.5s;
+}
+
+.bush_right {
+  background-color: blue;
+  animation: bush_right 1 0.5s;
+}
+
+.bush_ok {
+  background-color: rgb(8, 170, 8);
+}
+
+@keyframes scaleUpDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-5%);
+  }
+  50% {
+    transform: translateX(5%);
+  }
+  100% {
+    transform: translateX(-5%);
+  }
+}
+
+@keyframes bush_fail {
+  0% {
+    transform: rotateZ(4deg);
+  }
+  50% {
+    transform: rotateZ(-4deg);
+  }
+  100% {
+    transform: rotateZ(4deg);
+  }
+}
+
+@keyframes bush_right {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}

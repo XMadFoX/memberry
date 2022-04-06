@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 /*
  * @param {Function} callback
  * @return {Object}
- * @return {Function} start - @param {Number} time in seconds
+ * @return {Function} start - @param {Number} time in seconds, @param {Number} accuracy (interval) in ms
  * @return {Number} timeLeft - time left in milliseconds
  */
-export default function useTimer(cb: () => void) {
+export default function useTimer() {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [time, setTime] = useState<number | undefined>();
+  const [accuracy, setAccuracy] = useState<number | undefined>(200);
 
   useEffect(() => {
     if (!time) return;
@@ -18,11 +19,10 @@ export default function useTimer(cb: () => void) {
       if (leftMs < 0) {
         setTimeLeft(0);
         clearInterval(it);
-        cb();
       } else setTimeLeft(leftMs);
-    }, 10);
+    }, accuracy);
     return () => clearInterval(it);
-  }, [time, cb]);
+  }, [time, accuracy]);
 
   const parseTime = (time: number) => {
     const now = new Date();
@@ -31,7 +31,12 @@ export default function useTimer(cb: () => void) {
   };
 
   return {
-    start: (time: number) => parseTime(time), // @param {Number} time in seconds
+    start: (time: number, accuracy?: number) => {
+      // @param {Number} time in seconds
+      // @accuracy (interval) in ms
+      accuracy && setAccuracy(accuracy);
+      parseTime(time);
+    },
     timeLeft, // time left in milliseconds
   };
 }

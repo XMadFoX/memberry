@@ -1,8 +1,28 @@
 import styles from './gameBlock.module.css';
 import Image from 'next/image';
-import React from 'react';
+import { createContext, ReactChild, useState } from 'react';
 import Link from 'next/link';
-function gameBlock({children}: {children: React.ReactChild}) {
+import Heart from './heart';
+import useTimer from './useTimer';
+
+interface GameContextI {
+  startTimer: (time: number, accuracy?: number | undefined) => void;
+  timeLeft: number;
+  userHp: number;
+  enemyHp: number;
+  setUserHp: (hp: number) => void;
+  setEnemyHp: (hp: number) => void;
+}
+
+const GameContext = createContext<GameContextI>({} as GameContextI);
+export { GameContext };
+
+export default function GameBlock({ children }: { children: ReactChild }) {
+  const [userHp, setUserHp] = useState(9);
+  const [enemyHp, setEnemyHp] = useState(9);
+
+  const { start: startTimer, timeLeft } = useTimer();
+
   return (
     <div className={styles.game_page}>
       <div className={styles.container}>
@@ -11,49 +31,54 @@ function gameBlock({children}: {children: React.ReactChild}) {
             <Link href="/">
               <span></span>
             </Link>
-            
           </div>
         </div>
         <div className={styles.main}>
           <div className={styles.heart}>
             <div className={styles.heart_block}>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
+              {userHp >= 0 && <Heart hp={userHp} n={1} />}
+              {userHp >= 3 && <Heart hp={userHp} n={2} />}
+              {userHp >= 6 && <Heart hp={userHp} n={3} />}
             </div>
             <div className={styles.hero}>
               <div className={styles.hero__item}>
-                <Image src={`/game/knight.svg`} height={230} width={230} />
+                <Image
+                  src={`/game/knight.svg`}
+                  height={230}
+                  width={230}
+                  alt="Рыцарь"
+                />
               </div>
               <div className={styles.hero__item}>
-                <Image src={`/game/dragon.svg`} height={230} width={230} />
+                <Image
+                  src={`/game/dragon.svg`}
+                  height={230}
+                  width={230}
+                  alt="Враг: дракон"
+                />
               </div>
             </div>
             <div className={styles.heart_block}>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
-              <div className={styles.heart__element}>
-                <Image src={`/icons/heart.svg`} height={45} width={45} />
-              </div>
+              {enemyHp >= 0 && <Heart hp={enemyHp} n={1} />}
+              {enemyHp >= 3 && <Heart hp={enemyHp} n={2} />}
+              {enemyHp >= 6 && <Heart hp={enemyHp} n={3} />}
             </div>
           </div>
           <div className={styles.playing_block}>
-            {children}
+            <GameContext.Provider
+              value={{
+                startTimer,
+                timeLeft,
+                userHp,
+                setUserHp,
+                enemyHp,
+                setEnemyHp,
+              }}>
+              {children}
+            </GameContext.Provider>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default gameBlock;

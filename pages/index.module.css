@@ -193,9 +193,7 @@
   .menu {
     transition: 0.4s;
     visibility: visible;
-    background-image: url(../public/img/burgerFine.svg);
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: #313131a9 ;
     width: 0;
     overflow: hidden;
     height: 100%;

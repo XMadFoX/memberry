@@ -9,9 +9,9 @@ body {
   margin: 0;
   font-family: "Moyenage";
   background-color: #f7f5fa;
-
- 
-
+}
+* img {
+  user-select: none;
 }
 
 a {

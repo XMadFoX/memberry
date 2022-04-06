@@ -3,10 +3,25 @@ import Image from 'next/image';
 import { createContext, ReactChild, useState } from 'react';
 import Link from 'next/link';
 import Heart from './heart';
+import useTimer from './useTimer';
+
+interface GameContextI {
+  startTimer: (time: number, accuracy?: number | undefined) => void;
+  timeLeft: number;
+  userHp: number;
+  enemyHp: number;
+  setUserHp: (hp: number) => void;
+  setEnemyHp: (hp: number) => void;
+}
+
+const GameContext = createContext<GameContextI>({} as GameContextI);
+export { GameContext };
 
 export default function GameBlock({ children }: { children: ReactChild }) {
   const [userHp, setUserHp] = useState(9);
   const [enemyHp, setEnemyHp] = useState(9);
+
+  const { start: startTimer, timeLeft } = useTimer();
 
   return (
     <div className={styles.game_page}>
@@ -49,8 +64,19 @@ export default function GameBlock({ children }: { children: ReactChild }) {
               {enemyHp >= 6 && <Heart hp={enemyHp} n={3} />}
             </div>
           </div>
+          <div className={styles.playing_block}>
+            <GameContext.Provider
+              value={{
+                startTimer,
+                timeLeft,
+                userHp,
+                setUserHp,
+                enemyHp,
+                setEnemyHp,
+              }}>
+              {children}
+            </GameContext.Provider>
           </div>
-          <div className={styles.playing_block}>{children}</div>
         </div>
       </div>
     </div>

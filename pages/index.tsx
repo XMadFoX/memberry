@@ -100,8 +100,8 @@ const Start: NextPage = () => {
                   </Link>
                 </li>
                 <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
+                  className={styles.levels__element}>
+                  <Link href="/game/knightMove">
                     <a>
                       <span>3</span>
                     </a>

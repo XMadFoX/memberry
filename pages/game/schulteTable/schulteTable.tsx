@@ -40,12 +40,13 @@ function SchulteTable() {
   const clickInt = (clickNumber:number) => {
         if (clickNumber == arrayInt.length && chooseNumber == arrayInt.length) {
             schulte.current.style = `grid-template: repeat(${countInt},1fr)/repeat(${countInt},1fr)`
+            setChooseNumber(1)
             setArrayInt(mixCard(setInt(arrayInt,countInt**2)))
-            if (countInt == 5) {
+            if (countInt == 6) {
                 return
             }
             setCountInt(countInt+1)
-            setChooseNumber(1)
+
         }
         if (clickNumber == chooseNumber && chooseNumber != arrayInt.length) {
             setChooseNumber(chooseNumber+1)  

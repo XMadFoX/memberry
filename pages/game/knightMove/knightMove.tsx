@@ -24,13 +24,13 @@ function KnightMove() {
   let whiteFlag = 1;
   const horse = useRef<HTMLDivElement>(null);
   const cell = useRef<HTMLDivElement>(null);
-  const [arrayMoove, setArrayMoove] = useState<number[]>([]);
+  const [arrayMove, setArrayMove] = useState<any>([]);
   let randomPlaceKnight = Math.floor(Math.random() * 63);
   let randomMove = Math.floor(Math.random() * move.length);
   let x = randomPlaceKnight % 8;
   let y = Math.floor(randomPlaceKnight / 8);
-  let cordinateX = 0;
-  let cordinateY = 0;
+  let coordinateX = 0;
+  let coordinateY = 0;
   const [level,setLevel] = useState(2)
   let countClick = 0;
 
@@ -42,15 +42,15 @@ function KnightMove() {
         horse.current.setAttribute(
           'style',
           `visibility:hidden; transform: translate(${
-            cordinateX + move[randomMove][0] * width
-          }px,${cordinateY + move[randomMove][1] * width}px);`
+            coordinateX + move[randomMove][0] * width
+          }px,${coordinateY + move[randomMove][1] * width}px);`
         );
         x += move[randomMove][0];
         y += move[randomMove][1];
-        cordinateX += move[randomMove][0] * width;
-        cordinateY += move[randomMove][1] * width;
+        coordinateX += move[randomMove][0] * width;
+        coordinateY += move[randomMove][1] * width;
         randomMove = Math.floor(Math.random() * move.length);
-        arrayMoove.push([x, y]);
+        arrayMove.push([x,y])       
       }
     }, 1000 * (count + 1));
     for (let i = 1; i < count + 1; i++) {
@@ -67,16 +67,17 @@ function KnightMove() {
           horse.current.setAttribute(
             'style',
             `transform: translate(${
-              cordinateX + move[randomMove][0] * width
-            }px,${cordinateY + move[randomMove][1] * width}px);`
+              coordinateX + move[randomMove][0] * width
+            }px,${coordinateY + move[randomMove][1] * width}px);`
           );
           if (i < count) {
             x += move[randomMove][0];
             y += move[randomMove][1];
-            cordinateX += move[randomMove][0] * width;
-            cordinateY += move[randomMove][1] * width;
+            coordinateX += move[randomMove][0] * width;
+            coordinateY += move[randomMove][1] * width;
             randomMove = Math.floor(Math.random() * move.length);
-            arrayMoove.push([x, y]);
+            arrayMove.push([x,y])
+            
           }
         }
       }, 1000 * i);
@@ -84,28 +85,28 @@ function KnightMove() {
   };
 
   const cellClick = (index: number) => {
-    if (arrayMoove[countClick]) {
+    if (arrayMove[countClick]) {
       let xClick = index % 8;
       let yClick = Math.floor(index / 8);
       if (
-        arrayMoove[countClick][0] == xClick &&
-        arrayMoove[countClick][1] == yClick
+        arrayMove[countClick][0] == xClick &&
+        arrayMove[countClick][1] == yClick
       ) {
         console.log('вы правильно ответили');
         countClick++;
       }
     }
-    if (countClick == arrayMoove.length) {
+    if (countClick == arrayMove.length) {
       console.log("Вы выиграли")
       setLevel(level+1)
       randomPlaceKnight = Math.floor(Math.random() * 63);
       randomMove = Math.floor(Math.random() * move.length);
       x = randomPlaceKnight % 8;
       y = Math.floor(randomPlaceKnight / 8);
-      cordinateX = 0;
-      cordinateY = 0;
+      coordinateX = 0;
+      coordinateY = 0;
       countClick = 0;
-      setArrayMoove([])
+      setArrayMove([])
     }
   };
   return (

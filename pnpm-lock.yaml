@@ -38,6 +38,7 @@ specifiers:
   nodemailer: ^6.7.3
   preact: ^10.7.0
   preact-render-to-string: ^5.1.20
+  preact-ssr-prepass: ^1.2.0
   prettier: ^2.6.1
   react: npm:@preact/compat@17.0.3
   react-dom: npm:@preact/compat@17.0.3
@@ -64,11 +65,12 @@ dependencies:
   micro: 9.3.4
   mongoose: 6.2.9
   next: 12.1.4_548655dbd424c8460de8eda6dbc442f7
-  next-plugin-preact: 3.0.6_a2c7c69d7d13c4924eaea4df113ce803
+  next-plugin-preact: 3.0.6_80730f61ba59a44f87571db832ce0823
   next-pwa: 5.4.6_25494add6333b5a60c9308c98cb55798
   nodemailer: 6.7.3
   preact: 10.7.0
   preact-render-to-string: 5.1.20_preact@10.7.0
+  preact-ssr-prepass: 1.2.0_preact@10.7.0
   prettier: 2.6.1
   react: /@preact/compat/17.0.3_preact@10.7.0
   react-dom: /@preact/compat/17.0.3_preact@10.7.0
@@ -5712,7 +5714,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-plugin-preact/3.0.6_a2c7c69d7d13c4924eaea4df113ce803:
+  /next-plugin-preact/3.0.6_80730f61ba59a44f87571db832ce0823:
     resolution: {integrity: sha512-Ze8c8h0jaCPbG0X9T5jJpSDtrfvU9NLlt+DJWtxOu2fn6qPbNU3s61F1hTcldZb3IbpXkp5iGnhPCdgGZEGrCQ==}
     requiresBuild: true
     peerDependencies:
@@ -5725,6 +5727,7 @@ packages:
       module-alias: 2.2.2
       preact: 10.7.0
       preact-render-to-string: 5.1.20_preact@10.7.0
+      preact-ssr-prepass: 1.2.0_preact@10.7.0
     transitivePeerDependencies:
       - '@prefresh/babel-plugin'
       - next

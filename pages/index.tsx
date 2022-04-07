@@ -16,10 +16,10 @@ function countSliderItem(parent: any, child: any) {
 
 const Start: NextPage = () => {
   const [item, setItem] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-  const slider = useRef(null);
-  const slider_block = useRef(null);
-  const slider__item = useRef(null);
-  const menu = useRef(null);
+  const slider = useRef<HTMLDivElement>(null);
+  const slider_block = useRef<HTMLDivElement>(null);
+  const slider__item = useRef<HTMLDivElement>(null);
+  const menu = useRef<HTMLDivElement>(null);
   let position = 0;
   let counterHandler = 0;
   const prevHandler = () => {
@@ -31,9 +31,11 @@ const Start: NextPage = () => {
     ) {
       counterHandler -= 1;
       position += width + 70;
-      slider.current.childNodes.forEach((element: any) => {
-        element.style = `transform: translateX(${position}px)`;
-      });
+      if(slider.current !== null) {
+        slider.current.childNodes.forEach((element: any) => {
+          element.style = `transform: translateX(${position}px)`;
+        });
+      }
     }
   };
   const nextHandler = () => {
@@ -47,17 +49,24 @@ const Start: NextPage = () => {
     if (counterHandler < 10) {
       counterHandler += 1;
       position -= width + 70;
-      slider.current.childNodes.forEach((element: any) => {
-        element.style = `transform: translateX(${position}px)`;
-      });
+      if (slider.current !== null) {
+        slider.current.childNodes.forEach((element: any) => {
+          element.style = `transform: translateX(${position}px)`;
+        });
+      }
     }
   };
 
   const openMenu = () => {
-    menu.current.classList.add(styles.active);
+    if (menu.current !== null) {
+      menu.current.classList.add(styles.active);
+    }
+    
   };
   const closeMenu = () => {
-    menu.current.classList.remove(styles.active);
+    if (menu.current !== null) {
+      menu.current.classList.remove(styles.active);
+    }
   };
   return (
     <div className={styles.page}>
@@ -92,16 +101,16 @@ const Start: NextPage = () => {
                   </Link>
                 </li>
                 <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
+                  className={styles.levels__element}>
+                  <Link href="/game/schulteTable">
                     <a>
                       <span>2</span>
                     </a>
                   </Link>
                 </li>
                 <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
+                  className={styles.levels__element}>
+                  <Link href="/game/knightMove">
                     <a>
                       <span>3</span>
                     </a>

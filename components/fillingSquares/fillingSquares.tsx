@@ -1,5 +1,6 @@
 import { getRandomIntMinMax } from '@lib/random';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { GameContext } from '../gameBlock/gameBlock';
 import styles from './squares.module.css';
 
 export default function FillingSquares() {
@@ -13,6 +14,9 @@ export default function FillingSquares() {
   const [userWrong, setUserWrong] = useState<number>(-1);
 
   const [won, setWon] = useState(false);
+
+  const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
+    useContext(GameContext);
 
   useEffect(() => {
     setSquares(new Array(boardSize * boardSize));
@@ -39,6 +43,7 @@ export default function FillingSquares() {
 
   const start = () => {
     setShowRight(false);
+    startTimer((boardSize / 4) * 10);
   };
 
   const newGame = () => {
@@ -47,7 +52,6 @@ export default function FillingSquares() {
     setBoardSize(newBoardSize);
     const cellsCount = newBoardSize * newBoardSize;
     generateBoard(cellsCount);
-    console.log('new bs', newBoardSize);
     // then fires useEffect with rightSquares dependency
   };
 
@@ -58,15 +62,36 @@ export default function FillingSquares() {
   useEffect(() => {
     const cellsCount = boardSize * boardSize;
     setSquares([...new Array(cellsCount)]);
-    console.log('cells', cellsCount);
     setShowRight(true);
     setUserRight([]);
     setUserWrong(-1);
     setTimeout(() => {
-      setShowRight(false);
-      console.log('right', rightSquares);
+      start();
     }, 5000);
   }, [rightSquares]);
+
+  useEffect(() => {
+    if (timeLeft == 0) {
+      console.log('Время вышло');
+      lose();
+    }
+  }, [timeLeft]);
+
+  const lose = (idx = 99) => {
+    console.log('lose');
+    setUserWrong(idx);
+    setShowRight(true);
+    startTimer(null);
+    setUserWrong(99);
+    setUserHp(userHp - 1);
+  };
+
+  const win = () => {
+    console.log('won');
+    setWon(true);
+    startTimer(null);
+    setEnemyHp(enemyHp - 3);
+  };
 
   const countRightSquares = (rs = rightSquares) => {
     // calculate values true in rightSquares
@@ -79,16 +104,11 @@ export default function FillingSquares() {
 
   const guess = (idx: number) => {
     // check is this idx in rightSquares equals true
+    console.log('guess', idx);
     if (rightSquares[idx] === true) {
       setUserRight([...userRight, idx]);
-      if (userRight.length + 1 === countRightSquares()) {
-        console.log('won');
-        setWon(true);
-      }
-    } else {
-      setUserWrong(idx);
-      setShowRight(true);
-    }
+      if (userRight.length + 1 === countRightSquares()) win();
+    } else lose(idx);
   };
 
   const handleClick = (idx: number) => {
@@ -126,6 +146,7 @@ export default function FillingSquares() {
       {(won || userWrong > 0) && (
         <button onClick={() => newGame()}>Дальше</button>
       )}
+      {userWrong > 0 && 'Проиграл'}
     </>
   );
 }

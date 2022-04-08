@@ -7,8 +7,8 @@ import { useState, useEffect } from 'react';
  * @return {Number} timeLeft - time left in milliseconds
  */
 export default function useTimer() {
-  const [timeLeft, setTimeLeft] = useState<number>(0);
-  const [time, setTime] = useState<number | undefined>();
+  const [timeLeft, setTimeLeft] = useState<number | null>(-9);
+  const [time, setTime] = useState<number | undefined | null>();
   const [accuracy, setAccuracy] = useState<number | undefined>(200);
 
   useEffect(() => {
@@ -31,11 +31,13 @@ export default function useTimer() {
   };
 
   return {
-    start: (time: number, accuracy?: number) => {
+    start: (time: number | null, accuracy?: number) => {
       // @param {Number} time in seconds
       // @accuracy (interval) in ms
       accuracy && setAccuracy(accuracy);
-      parseTime(time);
+      console.log('got setTime', time);
+      accuracy && console.log('got accuracy', accuracy);
+      time ? parseTime(time) : setTime(null);
     },
     timeLeft, // time left in milliseconds
   };

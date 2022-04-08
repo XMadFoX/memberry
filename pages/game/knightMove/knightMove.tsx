@@ -30,6 +30,7 @@ const KnightMove = () => {
   const [winGame,setWinGame] = useState(0)
 
   const [arrayMove, setArrayMove] = useState<any>([]);
+  const [disable,setDisable] = useState(0)
   const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
     useContext(GameContext);
   const [countMisstake, setCountMisstake] = useState(1);
@@ -48,6 +49,7 @@ const KnightMove = () => {
     }
   },[timeLeft])
   const moveHorse = (count: number) => {
+    setDisable(1)
     let width = checkWidth(horse.current);
     setTimeout(() => {
       if (horse.current !== null) {
@@ -153,6 +155,7 @@ const KnightMove = () => {
       }
       if (countClick == arrayMove.length) {
         setEnemyHp(enemyHp - 3);
+        setDisable(0)
         if (cellBlock.current !== null) {
           cellBlock.current.childNodes.forEach((element: any) => {
             element.style = `background-color:none`;
@@ -242,7 +245,7 @@ const KnightMove = () => {
           );
         })}
       </div>
-      <button className={styles.btn} onClick={() => moveHorse(level)} >
+      <button className={styles.btn} onClick={() => moveHorse(level)} disabled = {disable == 1 ? true : false}>
         Готов
       </button>
     </div>

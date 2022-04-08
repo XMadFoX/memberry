@@ -2,8 +2,7 @@ import styles from './rememberCard.module.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { keyDocument } from '.pnpm/@urql+core@2.4.3_graphql@16.3.0/node_modules/@urql/core/dist/types/utils';
-import GameBlock from '../../../components/gameBlock/gameBlock';
+import GameBlock from '@components/gameBlock/gameBlock';
 
 interface cardI {
   id: number;
@@ -23,25 +22,26 @@ function RememberCard() {
   const [arrayCards, setArrayCards] = useState<cardI[]>([]);
   const [openedCard, setOpenedCard] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
-  const [counterForEndGame, setCounterForEndGame] = useState(0)
-  const [randomIndexArray, setRandomIndexArray] = useState<number[]>([0,0,0,0,0,0])
+  const [counterForEndGame, setCounterForEndGame] = useState(0);
+  const [randomIndexArray, setRandomIndexArray] = useState<number[]>([
+    0, 0, 0, 0, 0, 0,
+  ]);
   let pairArrayCard: cardI[] = [];
-  const increasing = (arrayFrom:cardI[],arrayTo: cardI[]) => {
-    for (let i = 0; i < 2;i++) {
-    let randomIndex = Math.floor(Math.random() *arrayFrom.length);
+  const increasing = (arrayFrom: cardI[], arrayTo: cardI[]) => {
+    for (let i = 0; i < 2; i++) {
+      let randomIndex = Math.floor(Math.random() * arrayFrom.length);
       let maxIndex = randomIndexArray.indexOf(Math.max(...randomIndexArray));
-      if(randomIndex !== maxIndex) {
+      if (randomIndex !== maxIndex) {
         arrayTo.push(arrayFrom[randomIndex]);
         arrayTo.push(arrayFrom[randomIndex]);
         randomIndexArray[randomIndex]++;
-      }
-      else {
+      } else {
         i--;
-      }  
+      }
     }
-    return arrayTo
-  }
-  pairArrayCard = increasing(cards,pairArrayCard)
+    return arrayTo;
+  };
+  pairArrayCard = increasing(cards, pairArrayCard);
   const mixCard = (array: cardI[]) => {
     let currentCardLength = array.length;
     while (currentCardLength != 0) {
@@ -59,42 +59,41 @@ function RememberCard() {
   }, []);
 
   useEffect(() => {
-
-    
-
     if (openedCard.length < 2) return;
     const firstCard = arrayCards[openedCard[0]];
     const SecondCard = arrayCards[openedCard[1]];
-    if (SecondCard && firstCard.id == SecondCard.id && (openedCard[0] != openedCard[1])) {
-      setMatched([...matched, openedCard[0],openedCard[1]]);
+    if (
+      SecondCard &&
+      firstCard.id == SecondCard.id &&
+      openedCard[0] != openedCard[1]
+    ) {
+      setMatched([...matched, openedCard[0], openedCard[1]]);
     }
-    if (openedCard.length == 2) setTimeout(() => setOpenedCard([]), 700)
+    if (openedCard.length == 2) setTimeout(() => setOpenedCard([]), 700);
     if (matched.length + 2 == arrayCards.length) {
       setTimeout(() => {
-        setCounterForEndGame(counterForEndGame + 1)
+        setCounterForEndGame(counterForEndGame + 1);
         if (counterForEndGame == 4) {
-          console.log("Вы выиграли")
-          return
+          console.log('Вы выиграли');
+          return;
         }
-        pairArrayCard = increasing(cards,pairArrayCard)
-        setOpenedCard([])
-        setMatched([])
-        setArrayCards(mixCard(increasing(cards,arrayCards)));
-        return
-      }, 700)
-
+        pairArrayCard = increasing(cards, pairArrayCard);
+        setOpenedCard([]);
+        setMatched([]);
+        setArrayCards(mixCard(increasing(cards, arrayCards)));
+        return;
+      }, 700);
     }
   }, [openedCard]);
   const flipCard = (index: number) => {
     for (let i = 0; i < openedCard.length; i++) {
       if (index == openedCard[i]) {
-        return
+        return;
       }
     }
     if (openedCard.length < 2) {
       setOpenedCard((opened) => [...opened, index]);
     }
-
   };
 
   return (
@@ -118,6 +117,7 @@ function RememberCard() {
                       src={`/game/rememberCard/${item.img}.svg`}
                       height={128}
                       width={128}
+                      alt="front-card"
                     />
                   </div>
                   <div className={styles.back}>
@@ -125,6 +125,7 @@ function RememberCard() {
                       src={`/game/rememberCard/question.svg`}
                       height={128}
                       width={128}
+                      alt="back-card"
                     />
                   </div>
                 </div>

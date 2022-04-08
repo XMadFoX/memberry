@@ -1,6 +1,6 @@
 
 .page {
-  background-image: url(../public/img/background.png);
+  background-image: url(../public/img/background.webp);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -149,6 +149,7 @@
   }
   .btn {
     max-width: 300px;
+    border: 8px solid #C1C1C1;
   }
   .btn__text {
     font-size: 80px;
@@ -167,6 +168,7 @@
     margin-bottom: -65px;
   }
   .btn {
+    border: 6px solid #C1C1C1;
     max-width: 300px;
   }
   .btn__text {
@@ -290,8 +292,10 @@
   .slider__item {
     min-width: 160px;
     height: 150px;
+    border: 8px solid #C1C1C1;
   }
   .btn {
+    border: 4px solid #C1C1C1;
     max-width: 200px;
   }
   .btn__text {
@@ -317,6 +321,7 @@
     padding-left: 20px;
   }
   .slider__item {
+    border: 6px solid #C1C1C1;
     min-width: 110px;
     height: 110px;
   }
@@ -330,6 +335,7 @@
     font-size: 30px;
   }
   .btn {
+    border: 3px solid #C1C1C1;
     max-width: 180px;
   }
   .btn__text {

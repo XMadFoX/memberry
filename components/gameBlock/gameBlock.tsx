@@ -35,7 +35,7 @@ export default function GameBlock({ children }: { children: ReactChild }) {
           <h3>{timeLeft}</h3>
           <div className={styles.leave}>
             <Link href="/">
-              <span></span>
+              <a><span></span></a>
             </Link>
           </div>
         </div>

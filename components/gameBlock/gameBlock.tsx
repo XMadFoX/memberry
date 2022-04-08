@@ -6,8 +6,8 @@ import Heart from './heart';
 import useTimer from './useTimer';
 
 interface GameContextI {
-  startTimer: (time: number, accuracy?: number | undefined) => void;
-  timeLeft: number;
+  startTimer: (time: number | null, accuracy?: number | undefined) => void;
+  timeLeft: number | null;
   userHp: number;
   enemyHp: number;
   setUserHp: (hp: number) => void;
@@ -27,7 +27,12 @@ export default function GameBlock({ children }: { children: ReactChild }) {
     <div className={styles.game_page}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <p className={styles.timer}>Время: <span>{timeLeft}</span></p>
+          <h2>
+            {typeof timeLeft == 'number' &&
+              timeLeft >= 0 &&
+              (timeLeft / 1000).toFixed(2)}
+          </h2>
+          <h3>{timeLeft}</h3>
           <div className={styles.leave}>
             <Link href="/">
               <a><span></span></a>

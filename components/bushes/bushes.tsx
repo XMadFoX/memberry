@@ -1,10 +1,13 @@
 import { getRandomIntMinMax } from '@/lib/random';
-import { useEffect, useState } from 'react';
+import { Button } from '@mantine/core';
+import Image from 'next/image';
+import { useContext, useEffect, useState } from 'react';
+import { GameContext } from '../gameBlock/gameBlock';
 import styles from './bushes.module.css';
 
 export default function Bushes() {
-  const size = 5;
-  const [bushes, setBushes] = useState<number>(size * size);
+  const [boardSize, setBoardSize] = useState<number>(3);
+  const [bushes, setBushes] = useState<number>(boardSize * boardSize);
 
   const [highlight, setHighlight] = useState(-1);
   const [order, setOrder] = useState<number[]>([]); // array of indexes
@@ -22,9 +25,17 @@ export default function Bushes() {
 
   const [lose, setLose] = useState<boolean>();
 
+  const { userHp, enemyHp, setUserHp, setEnemyHp, startTimer, timeLeft } =
+    useContext(GameContext);
+
   const highlightBush = (idx: number) => {
     setHighlight(idx);
   };
+
+  useEffect(() => {
+    setBushes(boardSize * boardSize);
+    setRightIdx(-1);
+  }, [boardSize]);
 
   useEffect(() => {
     setRightIdx(-1);
@@ -35,6 +46,7 @@ export default function Bushes() {
     const bush = getRandomIntMinMax(0, bushes);
     setHighlight(bush);
     setLockGame(true);
+    setUserRightIdx(-1);
     setTimeout(() => {
       setHighlight(-1);
       setUserTurn(true);
@@ -45,6 +57,7 @@ export default function Bushes() {
 
   const replayPrevious = () => {
     setRightIdx(-1);
+    setUserRightIdx(-1);
     console.log(`replay ${order.length}`);
     let targetIdx = 0;
     let it = setInterval(() => {
@@ -78,14 +91,18 @@ export default function Bushes() {
       setUserTurn(false);
       setMax(max + 1);
       setScore(score + 100);
+      setEnemyHp(enemyHp - 1);
+      boardSize < 5 && setBoardSize(boardSize + 1);
     }, 2000);
   };
 
   const continueGame = () => {
+    console.log('continue');
     setOrder([]);
     setUserOrder([]);
     setFailIdx(-1);
     setRightIdx(-1);
+    setUserRightIdx(-1);
     setScore(0);
     setLockGame(false);
     setLose(false);
@@ -98,6 +115,7 @@ export default function Bushes() {
     setFailIdx(rightIdx);
     setRightIdx(failIdx);
     setLose(true);
+    setUserHp(userHp - 1);
   };
 
   // when ai turns/user turns
@@ -114,7 +132,7 @@ export default function Bushes() {
         setRightIdx(-1);
         setFailIdx(-1);
         setUserRightIdx(userOrder[idx]);
-        setScore(score + 10);
+        setScore((s) => s + 10);
         // if final item
         if (idx === order.length - 1) {
           setUserTurn(false);
@@ -132,32 +150,30 @@ export default function Bushes() {
 
   return (
     <div className={styles.container}>
-      <p>
-        order: {JSON.stringify(order)} (now: {order.length}, max: {max})
-      </p>
-      <p>
-        user order: {JSON.stringify(userOrder)} {userOrder.length}
-      </p>
-      <p>Счёт: {score}</p>
       <h2>
         {lose ? (
           <>
             <p>Вы проиграли</p>
-            <button type="button" onClick={() => continueGame()}>
+            <Button type="button" onClick={() => continueGame()}>
               Продолжить
-            </button>
+            </Button>
           </>
-        ) : userTurn ? (
-          'Воспроизведи последовательность'
+        ) : userTurn && !lockGame ? (
+          `Воспроизведи последовательность ${JSON.stringify(order)}`
         ) : (
           'Запомни последовательность'
         )}
       </h2>
-      <div className={styles.game_container}>
+      <div
+        className={styles.game_container}
+        style={{
+          gridTemplateColumns: `repeat(${boardSize}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${boardSize}, minmax(0, 1fr))`,
+        }}>
         {[...Array(bushes)].map((bush, index) => (
           <button
             type="button"
-            onClick={() => {
+            onMouseDown={() => {
               if (!userTurn) return;
               setUserOrder((userOrder) => [...userOrder, index]);
             }}
@@ -167,7 +183,12 @@ export default function Bushes() {
             } ${rightIdx == index ? styles.bush_right : ''} ${
               failIdx == index ? styles.bush_fail : ''
             } ${userRightIdx == index ? styles.bush_ok : ''}`}>
-            {index}
+            <Image
+              alt={`куст ${index + 1}`}
+              height={'100%'}
+              width={'100%'}
+              src="/game/bushes/bush.svg"
+            />
           </button>
         ))}
       </div>

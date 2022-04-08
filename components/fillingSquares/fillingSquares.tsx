@@ -20,12 +20,20 @@ export default function FillingSquares() {
 
   const generateBoard = (length = boardSize * boardSize) => {
     console.log('generating new board with size: ', length);
-    const newArr: (undefined | boolean)[] = [];
-    console.dir(newArr);
-    for (let i = 0; i < length; i++) {
-      newArr.push(getRandomIntMinMax(0, 2) === 1 ? true : false);
+    const gen = () => {
+      const newArr = [];
+      for (let i = 0; i < length; i++) {
+        newArr.push(getRandomIntMinMax(0, 2) === 1 ? true : false);
+      }
+      return newArr;
+    };
+    let newArr = gen();
+    while (
+      countRightSquares(newArr) > (length === 9 ? 4 : 7) ||
+      countRightSquares(newArr) < (length >= 16 ? 4 : 3)
+    ) {
+      newArr = gen();
     }
-    console.dir(newArr);
     setRightSquares(newArr as boolean[]);
   };
 
@@ -60,10 +68,10 @@ export default function FillingSquares() {
     }, 5000);
   }, [rightSquares]);
 
-  const countRightSquares = () => {
+  const countRightSquares = (rs = rightSquares) => {
     // calculate values true in rightSquares
     let count = 0;
-    rightSquares.forEach((item) => {
+    rs.forEach((item) => {
       if (item) count++;
     });
     return count;
@@ -115,8 +123,9 @@ export default function FillingSquares() {
       {showRight && userWrong === -1 && (
         <button onClick={() => start()}>Запомнил</button>
       )}
-      {won ||
-        (userWrong > 0 && <button onClick={() => newGame()}>Дальше</button>)}
+      {(won || userWrong > 0) && (
+        <button onClick={() => newGame()}>Дальше</button>
+      )}
     </>
   );
 }

@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { GameContext } from '@components/gameBlock/gameBlock';
 import Image from 'next/image';
-
+import GameFinished from '@/components/GameFinished';
 const chessDesk = Array.from({ length: 64 }, (e, i) => i);
 
 const move = [
@@ -27,7 +27,8 @@ const KnightMove = () => {
   let whiteFlag = 1;
   const horse = useRef<HTMLDivElement>(null);
   const cellBlock = useRef<HTMLDivElement>(null);
-  // const cell = useRef<HTMLDivElement>(null);
+  const [winGame,setWinGame] = useState(0)
+
   const [arrayMove, setArrayMove] = useState<any>([]);
   const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
     useContext(GameContext);
@@ -41,7 +42,11 @@ const KnightMove = () => {
   const [looseGame, setLooseGame] = useState(0);
 
   const [level, setLevel] = useState(2);
-
+  useEffect(() => {
+    if (timeLeft==0) {
+      setLooseGame(1)
+    }
+  },[timeLeft])
   const moveHorse = (count: number) => {
     let width = checkWidth(horse.current);
     setTimeout(() => {
@@ -111,9 +116,7 @@ const KnightMove = () => {
         }
         console.log('вы правильно ответили');
         setRight(right + 1);
-        if (right == level) {
-          setEnemyHp(enemyHp - 3);
-        }
+        
         countClick++;
       } else {
         if (cellBlock.current !== null) {
@@ -149,6 +152,7 @@ const KnightMove = () => {
         }
       }
       if (countClick == arrayMove.length) {
+        setEnemyHp(enemyHp - 3);
         if (cellBlock.current !== null) {
           cellBlock.current.childNodes.forEach((element: any) => {
             element.style = `background-color:none`;
@@ -168,19 +172,36 @@ const KnightMove = () => {
       }
     }
   };
-  const newGame = () => {
-    setLevel(2);
-    randomPlaceKnight = Math.floor(Math.random() * 63);
-    randomMove = Math.floor(Math.random() * move.length);
-    x = randomPlaceKnight % 8;
-    y = Math.floor(randomPlaceKnight / 8);
-    coordinateX = 0;
-    coordinateY = 0;
-    countClick = 0;
-    setUserHp(9);
-    setArrayMove([]);
-    setLooseGame(0);
-  };
+  useEffect(()=>{
+    if(enemyHp == 0) {
+      setWinGame(1)
+    }
+  },[enemyHp])
+  if (looseGame == 1) {
+    return (
+      <GameFinished won = {false}  restart = {()=> {
+        setLevel(2);
+        randomPlaceKnight = Math.floor(Math.random() * 63);
+        randomMove = Math.floor(Math.random() * move.length);
+        x = randomPlaceKnight % 8;
+        y = Math.floor(randomPlaceKnight / 8);
+        coordinateX = 0;
+        coordinateY = 0;
+        countClick = 0;
+        setUserHp(9);
+        setEnemyHp(9)
+        setArrayMove([]);
+        setLooseGame(0);
+      }}/>
+    )
+  }  
+  if (winGame == 1) {
+    return (
+      <GameFinished won = {true}  restart = {()=> {}}/>
+    )
+  }  
+
+
   return (
     <div className={styles.game}>
       <h1 className={styles.title}>Ход конем</h1>
@@ -221,16 +242,7 @@ const KnightMove = () => {
           );
         })}
       </div>
-      {looseGame == 1 && (
-        <div className={styles.loose}>
-          <span>Вы проиграли</span>
-          <button className={styles.button_again} onClick={newGame}>
-            <span>Начать снова</span>{' '}
-          </button>
-        </div>
-      )}
-
-      <button className={styles.btn} onClick={() => moveHorse(level)}>
+      <button className={styles.btn} onClick={() => moveHorse(level)} >
         Готов
       </button>
     </div>

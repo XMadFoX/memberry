@@ -18,7 +18,7 @@ export default function Heart({ hp, n }: { hp: number; n: number }) {
   return (
     <>
       <Image
-        src={`/icons/heart.svg`}
+        src={ state == 3 ?  `/game/heart.svg` : state == 2 ? `/game/broken_heart.svg`:`/game/broken_heart.svg`}
         className={styles.heart__element}
         height={45}
         width={45}

@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import GameBlock from '../../../components/gameBlock/gameBlock';
 import { count } from 'console';
-
+import GameFinished from '@/components/GameFinished/gameFinished';
 import { GameContext } from '@components/gameBlock/gameBlock';
 function setInt(array: number[], int: number) {
   array = [];
@@ -26,6 +26,7 @@ const mixCard = (array: number[]) => {
 };
 
 function SchulteTable() {
+  const [winGame, setWinGame] = useState(0);
   const [arrayInt, setArrayInt] = useState<number[]>([]);
   const [chooseNumber, setChooseNumber] = useState(1);
   const [countInt, setCountInt] = useState(3);
@@ -34,7 +35,22 @@ function SchulteTable() {
   const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
     useContext(GameContext);
   const schulte = useRef<HTMLDivElement>(null);
-
+  useEffect (()=> {
+    if (timeLeft == 0) {
+      setFirstClick(0)
+      setLooseGame(1)
+      setCountInt(3)
+      startTimer(0)
+      
+    }
+  }, [timeLeft])
+  useEffect (()=>{
+    console.log(enemyHp)
+    if(enemyHp == 0) {
+      setWinGame(1)
+      console.log(winGame)
+    }
+  },[enemyHp])
   useEffect(() => {
     if (schulte.current !== null) {
       schulte.current.setAttribute(
@@ -49,7 +65,7 @@ function SchulteTable() {
   const clickInt = (clickNumber: number) => {
     if (firstClick == 0) {
       setFirstClick(1)
-      startTimer(countInt*3)
+      startTimer(countInt**3/4)
     }
     if (
       clickNumber == arrayInt.length &&
@@ -77,28 +93,48 @@ function SchulteTable() {
       setUserHp(userHp - 3);
     }
     if (userHp == 3) {
+      setFirstClick(0)
       setCountInt(3);
       startTimer(0)
       setLooseGame(1);
     }
   };
-  const newGame = () => {
-    
-    console.log(countInt)
-    setArrayInt([]);
-    setChooseNumber(1);
-    setLooseGame(0);
+
+  useEffect (()=> {
+    console.log(schulte.current)
     if (schulte.current !== null) {
       schulte.current.setAttribute(
         'style',
-        `grid-template: repeat(${countInt},1fr)/repeat(${countInt},1fr)`
+        `grid-template: repeat(${countInt},1fr)/repeat(${countInt},1fr)`      
       );
+      setCountInt(countInt + 1);
     }
-
+  },[looseGame])
+  const newGame = () => {
+    setLooseGame(0);
+    setArrayInt([]);
+    setChooseNumber(1);
     setArrayInt(mixCard(setInt(arrayInt, countInt ** 2)));
-    setCountInt(countInt + 1);
     setUserHp(9)
+    setEnemyHp(9)
   };
+
+
+  if(looseGame == 1) {
+    return (
+      <GameFinished won = {false}  restart = {()=> {
+        newGame()
+      }}/>
+    )
+  }
+
+  if (winGame == 1) {
+    return (
+      <GameFinished won={true} restart={() => {
+
+      }} />
+    )
+  }
   return (
     <>
       <div className={styles.game}>
@@ -115,14 +151,6 @@ function SchulteTable() {
             );
           })}
         </div>
-        {looseGame == 1 && (
-          <div className={styles.loose}>
-            <span>Вы проиграли</span>
-            <button className={styles.button_again} onClick={newGame}>
-              <span>Начать снова</span>{' '}
-            </button>
-          </div>
-        )}
       </div>
     </>
   );

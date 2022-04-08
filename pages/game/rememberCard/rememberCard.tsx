@@ -2,7 +2,7 @@ import styles from './rememberCard.module.css';
 import { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import Image from 'next/image';
-
+import GameFinished from '@/components/GameFinished/gameFinished';
 import { GameContext } from '@components/gameBlock/gameBlock';
 interface cardI {
   id: number;
@@ -27,32 +27,42 @@ const cards: cardI[] = [
 ];
 
 function RememberCard() {
-  
   const [arrayCards, setArrayCards] = useState<cardI[]>([]);
   const [openedCard, setOpenedCard] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
   const [counterForEndGame, setCounterForEndGame] = useState(0);
   const [looseGame, setLooseGame] = useState(0);
-  const [randomIndexArray, setRandomIndexArray] = useState<number[]>([
-    0, 0, 0, 0, 0, 0,
-  ]);
-  let width = 0
+  const [winGame, setWinGame] = useState(0);
+  const [firstClick, setFirstClik] = useState(0);
+  let width = 0;
   const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
     useContext(GameContext);
+
+  useEffect(() => {
+    if (timeLeft == 0) {
+      setUserHp(userHp - 3);
+      setFirstClik(0);
+      setOpenedCard([]);
+      setMatched([]);
+      if (userHp == 3) {
+        setLooseGame(1);
+      }
+    }
+  }, [timeLeft]);
   let pairArrayCard: cardI[] = [];
   const increasing = (arrayFrom: cardI[], arrayTo: cardI[]) => {
-    width = arrayTo.length
-    if(width !==0 ) {
-      width /=2
+    width = arrayTo.length;
+    if (width !== 0) {
+      width /= 2;
     }
-    arrayTo = []
+    
+    arrayTo = [];
 
-    for (let i = 0; i < width+2; i++) {
+    for (let i = 0; i < width + 2; i++) {
       let randomIndex = Math.floor(Math.random() * arrayFrom.length);
-     
+
       arrayTo.push(arrayFrom[randomIndex]);
       arrayTo.push(arrayFrom[randomIndex]);
-      randomIndexArray[randomIndex]++;
     }
     return arrayTo;
   };
@@ -88,10 +98,9 @@ function RememberCard() {
     if (matched.length + 2 == arrayCards.length) {
       setTimeout(() => {
         setCounterForEndGame(counterForEndGame + 1);
-        if (counterForEndGame == 4) {
-          console.log('Вы выиграли');
-          return;
-        }
+        setFirstClik(0);
+        startTimer(0);
+        setEnemyHp(enemyHp - 3);
         pairArrayCard = increasing(cards, pairArrayCard);
         setOpenedCard([]);
         setMatched([]);
@@ -101,6 +110,10 @@ function RememberCard() {
     }
   }, [openedCard]);
   const flipCard = (index: number) => {
+    if (firstClick == 0) {
+      startTimer(arrayCards.length ** 2 /2);
+    }
+    setFirstClik(1);
     for (let i = 0; i < openedCard.length; i++) {
       if (index == openedCard[i]) {
         return;
@@ -110,7 +123,35 @@ function RememberCard() {
       setOpenedCard((opened) => [...opened, index]);
     }
   };
-
+  useEffect (()=>{
+    console.log(enemyHp)
+    if(enemyHp == 0) {
+      setWinGame(1)
+      console.log(winGame)
+    }
+  },[enemyHp])
+  if (looseGame == 1) {
+    return (
+      <GameFinished
+        won={false}
+        restart={() => {
+          setArrayCards([]);
+          setUserHp(9);
+          setEnemyHp(9);
+          setOpenedCard([]);
+          setMatched([]);
+          console.log(arrayCards);
+          setArrayCards(mixCard(increasing(cards, [])));
+          setLooseGame(0);
+        }}
+      />
+    );
+  }
+  if (winGame == 1) {
+    return (
+      <GameFinished won={true} restart={() => {}} />
+    )
+  }
   return (
     <div className={styles.game}>
       <div className={styles.cards}>
@@ -129,6 +170,7 @@ function RememberCard() {
                     src={`/game/rememberCard/${item.img}.svg`}
                     height={128}
                     width={128}
+                    alt="карточка"
                   />
                 </div>
                 <div className={styles.back}>
@@ -136,6 +178,7 @@ function RememberCard() {
                     src={`/game/rememberCard/question.svg`}
                     height={128}
                     width={128}
+                    alt="карточка"
                   />
                 </div>
               </div>
@@ -143,14 +186,6 @@ function RememberCard() {
           );
         })}
       </div>
-      {looseGame == 1 && (
-        <div className={styles.loose}>
-          <span>Вы проиграли</span>
-          <button className={styles.button_again} onClick={newGame}>
-            <span>Начать снова</span>{' '}
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -27,12 +27,11 @@ export default function GameBlock({ children }: { children: ReactChild }) {
     <div className={styles.game_page}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2>
+          <div className={styles.timer}>
             {typeof timeLeft == 'number' &&
               timeLeft >= 0 &&
               (timeLeft / 1000).toFixed(2)}
-          </h2>
-          <h3>{timeLeft}</h3>
+          </div>
           <div className={styles.leave}>
             <Link href="/">
               <a><span></span></a>

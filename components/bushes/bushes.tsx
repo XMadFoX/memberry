@@ -97,6 +97,32 @@ export default function Bushes() {
     }
   };
 
+  const restart = () => {
+    setOrder([]);
+    setUserOrder([]);
+    setScore(0);
+    setLose(false);
+    setLevelState(undefined);
+    setBoardSize(3);
+    setBushes(3 * 3);
+    setHighlight(-1);
+    setUserTurn(false);
+    setLockGame(false);
+    setFailIdx(-1);
+    setRightIdx(-1);
+    setUserRightIdx(-1);
+    setMax(3);
+    setUserHp(9);
+    setEnemyHp(9);
+    setTimeout(() => {
+      setHighlight(-1);
+      setUserTurn(true);
+      console.log('start timer');
+      startTimer(order.length * 10);
+      setLockGame(false);
+    }, 1000);
+  };
+
   const finishGame = () => {
     console.log('finished');
     setTimeout(() => {
@@ -142,7 +168,7 @@ export default function Bushes() {
     setTimeout(() => play(), 1000);
   }, [order, userTurn]);
 
-  // when user clickes on bush
+  // when user clicks on bush
   useEffect(() => {
     userOrder.forEach((i, idx) => {
       if (i === order[idx]) {
@@ -187,7 +213,7 @@ export default function Bushes() {
       <GameFinished
         won={levelState === 'completed' ? true : false}
         restart={() => {
-          continueGame();
+          restart();
         }}
       />
     );
@@ -202,7 +228,7 @@ export default function Bushes() {
             </Button>
           </>
         ) : userTurn && !lockGame ? (
-          `Повтори последовательность ${JSON.stringify(order)}`
+          'Повтори последовательность'
         ) : (
           'Запомни последовательность'
         )}

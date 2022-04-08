@@ -1,0 +1,17 @@
+.finished {
+  height: 40vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  gap: 12px;
+  color: white;
+}
+.finished_title {
+  appearance: none;
+  font-size: 3rem;
+  font-weight: 600;
+}
+.finished_btns {
+  display: flex;
+  gap: 12px;
+}

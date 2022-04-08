@@ -138,7 +138,7 @@ function SchulteTable() {
   return (
     <>
       <div className={styles.game}>
-        <h2 className={styles.find_number}>Найдите число: {chooseNumber}</h2>
+        <h2 className={styles.title}>Найдите число: {chooseNumber}</h2>
         <div className={styles.schulte} ref={schulte}>
           {arrayInt.map((int: number) => {
             return (

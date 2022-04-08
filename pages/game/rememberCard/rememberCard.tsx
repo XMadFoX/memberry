@@ -154,6 +154,7 @@ function RememberCard() {
   }
   return (
     <div className={styles.game}>
+      <h2 className={styles.title}>Найди пары карт</h2>
       <div className={styles.cards}>
         {arrayCards.map((item, index: number) => {
           let isFlipped = false;

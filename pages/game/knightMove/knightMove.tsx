@@ -207,7 +207,7 @@ const KnightMove = () => {
 
   return (
     <div className={styles.game}>
-      <h1 className={styles.title}>Ход конем</h1>
+      <h1 className={styles.title}>{disable == 1? "Какое передживение было у коня?" : "Запомните передвижение коня"}</h1>
 
       <h2 className={styles.subtitle}>Ваш уровень {level - 1}</h2>
       <div className={styles.chess} ref={cellBlock}>

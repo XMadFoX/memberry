@@ -33,7 +33,7 @@ export default function GameBlock({ children }: { children: ReactChild }) {
               (timeLeft / 1000).toFixed(2)}
           </div>
           <div className={styles.leave}>
-            <Link href="/game">
+            <Link href="/home">
               <a><span></span></a>
             </Link>
           </div>

@@ -4,6 +4,9 @@ import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../gameBlock/gameBlock';
 import styles from './bushes.module.css';
+import dynamic from 'next/dynamic';
+
+const GameFinished = dynamic(() => import('../GameFinished'));
 
 export default function Bushes() {
   const [boardSize, setBoardSize] = useState<number>(3);
@@ -25,6 +28,8 @@ export default function Bushes() {
 
   const [lose, setLose] = useState<boolean>();
 
+  const [levelState, setLevelState] = useState<string | undefined>();
+
   const { userHp, enemyHp, setUserHp, setEnemyHp, startTimer, timeLeft } =
     useContext(GameContext);
 
@@ -41,6 +46,13 @@ export default function Bushes() {
     setRightIdx(-1);
   }, [userTurn]);
 
+  useEffect(() => {
+    if (timeLeft == 0) {
+      setUserOrder([...userOrder, 999]);
+      console.log('time is over');
+    }
+  }, [timeLeft]);
+
   const showNewBush = () => {
     //reset
     const bush = getRandomIntMinMax(0, bushes);
@@ -50,6 +62,8 @@ export default function Bushes() {
     setTimeout(() => {
       setHighlight(-1);
       setUserTurn(true);
+      console.log('start timer');
+      startTimer(order.length * 10);
       setLockGame(false);
     }, 1000);
     setOrder((order) => [...order, bush]);
@@ -76,9 +90,37 @@ export default function Bushes() {
     if (order.length > max - 1) {
       setUserTurn(true);
     } else {
+      console.log('stop timer');
+      startTimer(null);
       if (order.length > 0) replayPrevious();
       else showNewBush();
     }
+  };
+
+  const restart = () => {
+    setOrder([]);
+    setUserOrder([]);
+    setScore(0);
+    setLose(false);
+    setLevelState(undefined);
+    setBoardSize(3);
+    setBushes(3 * 3);
+    setHighlight(-1);
+    setUserTurn(false);
+    setLockGame(false);
+    setFailIdx(-1);
+    setRightIdx(-1);
+    setUserRightIdx(-1);
+    setMax(3);
+    setUserHp(9);
+    setEnemyHp(9);
+    setTimeout(() => {
+      setHighlight(-1);
+      setUserTurn(true);
+      console.log('start timer');
+      startTimer(order.length * 10);
+      setLockGame(false);
+    }, 1000);
   };
 
   const finishGame = () => {
@@ -91,7 +133,7 @@ export default function Bushes() {
       setUserTurn(false);
       setMax(max + 1);
       setScore(score + 100);
-      setEnemyHp(enemyHp - 1);
+      setEnemyHp(enemyHp - 3);
       boardSize < 5 && setBoardSize(boardSize + 1);
     }, 2000);
   };
@@ -112,8 +154,10 @@ export default function Bushes() {
     console.log('failed');
     setLockGame(true);
     setUserTurn(false);
-    setFailIdx(rightIdx);
-    setRightIdx(failIdx);
+    setFailIdx(failIdx);
+    setTimeout(() => {
+      setRightIdx(rightIdx);
+    }, 100);
     setLose(true);
     setUserHp(userHp - 1);
   };
@@ -124,7 +168,7 @@ export default function Bushes() {
     setTimeout(() => play(), 1000);
   }, [order, userTurn]);
 
-  // when user clickes on bush
+  // when user clicks on bush
   useEffect(() => {
     userOrder.forEach((i, idx) => {
       if (i === order[idx]) {
@@ -143,23 +187,48 @@ export default function Bushes() {
         }
       } else {
         console.log(`failed ${i}[${idx}, ${order[idx]}]`);
-        failGame(userOrder[idx], order[idx]);
+        failGame(order[idx], userOrder[idx]);
       }
     });
   }, [userOrder]);
 
+  useEffect(() => {
+    startTimer(null);
+  }, [lose]);
+
+  useEffect(() => {
+    if (enemyHp > 0) return;
+    console.log('level completed');
+    setLevelState('completed');
+  }, [enemyHp]);
+
+  useEffect(() => {
+    if (userHp > 0) return;
+    console.log('level failed');
+    setLevelState('failed');
+  }, [userHp]);
+
+  if (levelState)
+    return (
+      <GameFinished
+        won={levelState === 'completed' ? true : false}
+        restart={() => {
+          restart();
+        }}
+      />
+    );
   return (
     <div className={styles.container}>
-      <h2>
+      <h2 style={{ color: '#fff' }}>
         {lose ? (
           <>
-            <p>Вы проиграли</p>
+            <p>{timeLeft == 0 ? 'Время вышло' : 'Не правильно'}</p>
             <Button type="button" onClick={() => continueGame()}>
               Продолжить
             </Button>
           </>
         ) : userTurn && !lockGame ? (
-          `Воспроизведи последовательность ${JSON.stringify(order)}`
+          'Повтори последовательность'
         ) : (
           'Запомни последовательность'
         )}

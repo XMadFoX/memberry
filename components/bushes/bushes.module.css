@@ -44,7 +44,7 @@
 }
 
 .bush_right {
-  background-color: blue;
+  background-color: blue !important;
   animation: bush_right 1 0.5s;
 }
 

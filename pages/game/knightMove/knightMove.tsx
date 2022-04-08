@@ -1,9 +1,8 @@
 import styles from './knightMove.module.css';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useEffect } from 'react';
-import GameBlock from '../../../components/gameBlock/gameBlock';
+import { GameContext } from '@components/gameBlock/gameBlock';
 import Image from 'next/image';
-import { MutableRefObject } from 'react';
 
 const chessDesk = Array.from({ length: 64 }, (e, i) => i);
 
@@ -17,24 +16,32 @@ const move = [
   [-1, 2],
   [-1, -2],
 ];
+
+var randomPlaceKnight = Math.floor(Math.random() * 63);
+var countClick = 0;
+
 function checkWidth(element: any) {
   return element.offsetWidth;
 }
-function KnightMove() {
+const KnightMove = () => {
   let whiteFlag = 1;
   const horse = useRef<HTMLDivElement>(null);
-  const cell = useRef<HTMLDivElement>(null);
+  const cellBlock = useRef<HTMLDivElement>(null);
+  // const cell = useRef<HTMLDivElement>(null);
   const [arrayMove, setArrayMove] = useState<any>([]);
-  let randomPlaceKnight = Math.floor(Math.random() * 63);
+  const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
+    useContext(GameContext);
+  const [countMisstake, setCountMisstake] = useState(1);
+  const [right, setRight] = useState(1);
   let randomMove = Math.floor(Math.random() * move.length);
   let x = randomPlaceKnight % 8;
   let y = Math.floor(randomPlaceKnight / 8);
   let coordinateX = 0;
   let coordinateY = 0;
-  const [level,setLevel] = useState(2)
-  let countClick = 0;
+  const [looseGame, setLooseGame] = useState(0);
 
-  useEffect(() => {}, []);
+  const [level, setLevel] = useState(2);
+
   const moveHorse = (count: number) => {
     let width = checkWidth(horse.current);
     setTimeout(() => {
@@ -50,7 +57,9 @@ function KnightMove() {
         coordinateX += move[randomMove][0] * width;
         coordinateY += move[randomMove][1] * width;
         randomMove = Math.floor(Math.random() * move.length);
-        arrayMove.push([x,y])       
+        arrayMove.push([x, y]);
+        startTimer(10);
+        console.log('Конь показал как ходить');
       }
     }, 1000 * (count + 1));
     for (let i = 1; i < count + 1; i++) {
@@ -76,8 +85,7 @@ function KnightMove() {
             coordinateX += move[randomMove][0] * width;
             coordinateY += move[randomMove][1] * width;
             randomMove = Math.floor(Math.random() * move.length);
-            arrayMove.push([x,y])
-            
+            arrayMove.push([x, y]);
           }
         }
       }, 1000 * i);
@@ -85,68 +93,148 @@ function KnightMove() {
   };
 
   const cellClick = (index: number) => {
+    let xClick = index % 8;
+    let yClick = Math.floor(index / 8);
     if (arrayMove[countClick]) {
-      let xClick = index % 8;
-      let yClick = Math.floor(index / 8);
       if (
         arrayMove[countClick][0] == xClick &&
         arrayMove[countClick][1] == yClick
       ) {
+        if (cellBlock.current !== null) {
+          let i = 0;
+          cellBlock.current.childNodes.forEach((element: any) => {
+            if (index == i) {
+              element.style = `background-color:green`;
+            }
+            i++;
+          });
+        }
         console.log('вы правильно ответили');
+        setRight(right + 1);
+        if (right == level) {
+          setEnemyHp(enemyHp - 3);
+        }
         countClick++;
+      } else {
+        if (cellBlock.current !== null) {
+          let i = 0;
+          cellBlock.current.childNodes.forEach((element: any) => {
+            if (index == i) {
+              element.style = `background-color:red`;
+            }
+            i++;
+          });
+          setUserHp(userHp - 3);
+          setCountMisstake(countMisstake + 1);
+
+          if (countMisstake == 3) {
+            setLevel(1);
+            startTimer(0);
+            randomPlaceKnight = Math.floor(Math.random() * 63);
+            randomMove = Math.floor(Math.random() * move.length);
+            x = randomPlaceKnight % 8;
+            y = Math.floor(randomPlaceKnight / 8);
+            coordinateX = 0;
+            coordinateY = 0;
+            countClick = 0;
+            setArrayMove([]);
+            console.log('Вы проиграли');
+            setLooseGame(1);
+            if (cellBlock.current !== null) {
+              cellBlock.current.childNodes.forEach((element: any) => {
+                element.style = `background-color:none`;
+              });
+            }
+          }
+        }
+      }
+      if (countClick == arrayMove.length) {
+        if (cellBlock.current !== null) {
+          cellBlock.current.childNodes.forEach((element: any) => {
+            element.style = `background-color:none`;
+          });
+        }
+        startTimer(0);
+        console.log('Вы выиграли');
+        setLevel(level + 1);
+        randomPlaceKnight = Math.floor(Math.random() * 63);
+        randomMove = Math.floor(Math.random() * move.length);
+        x = randomPlaceKnight % 8;
+        y = Math.floor(randomPlaceKnight / 8);
+        coordinateX = 0;
+        coordinateY = 0;
+        countClick = 0;
+        setArrayMove([]);
       }
     }
-    if (countClick == arrayMove.length) {
-      console.log("Вы выиграли")
-      setLevel(level+1)
-      randomPlaceKnight = Math.floor(Math.random() * 63);
-      randomMove = Math.floor(Math.random() * move.length);
-      x = randomPlaceKnight % 8;
-      y = Math.floor(randomPlaceKnight / 8);
-      coordinateX = 0;
-      coordinateY = 0;
-      countClick = 0;
-      setArrayMove([])
-    }
+  };
+  const newGame = () => {
+    setLevel(2);
+    randomPlaceKnight = Math.floor(Math.random() * 63);
+    randomMove = Math.floor(Math.random() * move.length);
+    x = randomPlaceKnight % 8;
+    y = Math.floor(randomPlaceKnight / 8);
+    coordinateX = 0;
+    coordinateY = 0;
+    countClick = 0;
+    setUserHp(9);
+    setArrayMove([]);
+    setLooseGame(0);
   };
   return (
-    <>
-      <GameBlock>
-        <div className={styles.game}>
-          <h1>Ход конем</h1>
-          <h2>Ваш уровень {level - 1}</h2>
-          <div className={styles.chess}>
-            {chessDesk.map((index) => {
-              whiteFlag *= -1;
-              if (index % 8 == 0) whiteFlag *= -1;
-              return (
-                <div
-                  className={
-                    styles.chess_cell +
-                    ' ' +
-                    (whiteFlag == 1 ? styles.white : styles.black)
-                  }
-                  onClick={() => cellClick(index)}
-                  key={index}>
-                  {randomPlaceKnight == index && (
-                    <div className={styles.horse} ref={horse}>
-                      <Image
-                        src="/icons/chess_horse.svg"
-                        width={55}
-                        height={55}
-                        alt="конь"
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <button onClick={() => moveHorse(level)}>Готов</button>
+    <div className={styles.game}>
+      <h1 className={styles.title}>Ход конем</h1>
+
+      <h2 className={styles.subtitle}>Ваш уровень {level - 1}</h2>
+      <div className={styles.chess} ref={cellBlock}>
+        {chessDesk.map((index) => {
+          whiteFlag *= -1;
+          let isClicked = 0;
+          if (index % 8 == 0) whiteFlag *= -1;
+
+          return (
+            <div
+              onClick={() => {
+                cellClick(index);
+              }}
+              key={index}
+              className={
+                styles.chess_cell +
+                ' ' +
+                (whiteFlag == 1 ? styles.white : styles.black) +
+                ' ' +
+                (isClicked == 1 ? styles.click : '')
+              }>
+              <div className={styles.wrapper}>
+                {randomPlaceKnight == index && (
+                  <div className={styles.horse} ref={horse}>
+                    <Image
+                      src="/icons/chess_horse.svg"
+                      width={55}
+                      height={55}
+                      alt="конь"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {looseGame == 1 && (
+        <div className={styles.loose}>
+          <span>Вы проиграли</span>
+          <button className={styles.button_again} onClick={newGame}>
+            <span>Начать снова</span>{' '}
+          </button>
         </div>
-      </GameBlock>
-    </>
+      )}
+
+      <button className={styles.btn} onClick={() => moveHorse(level)}>
+        Готов
+      </button>
+    </div>
   );
-}
+};
 
 export default KnightMove;

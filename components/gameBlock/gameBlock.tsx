@@ -27,6 +27,7 @@ export default function GameBlock({ children }: { children: ReactChild }) {
     <div className={styles.game_page}>
       <div className={styles.container}>
         <div className={styles.header}>
+          <p className={styles.timer}>Время: <span>{timeLeft}</span></p>
           <div className={styles.leave}>
             <Link href="/">
               <a><span></span></a>
@@ -76,6 +77,7 @@ export default function GameBlock({ children }: { children: ReactChild }) {
               }}>
               {children}
             </GameContext.Provider>
+            
           </div>
         </div>
       </div>

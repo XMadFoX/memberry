@@ -3,6 +3,8 @@ import { Button } from '@mantine/core';
 import useSave from '@/lib/useSave';
 import { useEffect } from 'react';
 import styles from './gameFinished.module.css';
+import { useRouter } from 'next/router';
+import { useLocalStorageValue } from '@mantine/hooks';
 
 export default function GameFinished({
   won,
@@ -12,10 +14,24 @@ export default function GameFinished({
   restart: () => void;
 }) {
   const { completed, setCompleted, storyMode, setStoryMode } = useSave();
+  const router = useRouter();
 
   useEffect(() => {
     if (won) setCompleted();
   }, []);
+
+  const [localLevels, setLocalsLevels] = useLocalStorageValue({
+    key: 'levels',
+    serialize: (value: string[]) => JSON.stringify(value),
+    deserialize: (value: string) => (value ? JSON.parse(value) : []),
+    defaultValue: [],
+  });
+
+  const nextLevel = () => {
+    router.push(
+      `/game/${localLevels[completed < 5 ? completed : completed - 5]}`
+    );
+  };
 
   return (
     <div className={styles.finished}>
@@ -28,7 +44,7 @@ export default function GameFinished({
             Вернуться в Главное меню
           </Button>
         </Link>
-        <Button color="lime" onClick={() => (won ? {} : restart())}>
+        <Button color="lime" onClick={() => (won ? nextLevel() : restart())}>
           {won && storyMode ? 'Следующий уровень' : 'Попробовать снова'}
         </Button>
       </div>

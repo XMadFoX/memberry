@@ -5,7 +5,7 @@ const useSave = () => {
     key: 'levelsCompleted',
     defaultValue: 0,
     serialize: (value: number) => value.toString(),
-    deserialize: (value: string) => parseInt(value, 10),
+    deserialize: (value: string) => (value ? parseInt(value, 10) : 0),
   });
   const [storyMode, setStoryMode] = useLocalStorageValue({
     key: 'story',

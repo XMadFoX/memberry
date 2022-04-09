@@ -118,6 +118,15 @@
   border: 10px solid #c1c1c1;
 }
 
+.slider__item button {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 27px;
+  background: url();
+  cursor: pointer;
+}
+
 .slider__button {
   cursor: pointer;
   border: none;

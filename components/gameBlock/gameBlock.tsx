@@ -1,9 +1,10 @@
 import styles from './gameBlock.module.css';
 import Image from 'next/image';
-import { createContext, ReactChild, useState } from 'react';
+import { createContext, ReactChild, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Heart from './heart';
 import useTimer from './useTimer';
+import usePrevious from '@lib/usePrevious';
 
 interface GameContextI {
   startTimer: (time: number | null, accuracy?: number | undefined) => void;
@@ -23,6 +24,16 @@ export default function GameBlock({ children }: { children: ReactChild }) {
 
   const { start: startTimer, timeLeft } = useTimer();
 
+  const prevUserHp = usePrevious(userHp);
+  const prevEnemyHp = usePrevious(enemyHp);
+
+  useEffect(() => {
+    if (userHp >= prevUserHp) return;
+  }, [userHp]);
+  useEffect(() => {
+    if (enemyHp >= prevEnemyHp) return;
+  }, [enemyHp]);
+
   return (
     <div className={styles.game_page}>
       <div className={styles.container}>
@@ -34,7 +45,9 @@ export default function GameBlock({ children }: { children: ReactChild }) {
           </div>
           <div className={styles.leave}>
             <Link href="/home">
-              <a><span></span></a>
+              <a>
+                <span></span>
+              </a>
             </Link>
           </div>
         </div>
@@ -81,7 +94,6 @@ export default function GameBlock({ children }: { children: ReactChild }) {
               }}>
               {children}
             </GameContext.Provider>
-            
           </div>
         </div>
       </div>

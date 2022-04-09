@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function RememberSquares() {
   return (
-    <GameBlock>
+    <GameBlock id = "remember-squares">
       <FillingSquares />
     </GameBlock>
   );

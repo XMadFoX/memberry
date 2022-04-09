@@ -108,6 +108,7 @@
 }
 
 .slider__item {
+
   cursor: pointer;
   transition: 0.4s;
   min-width: 235px;
@@ -119,6 +120,9 @@
 }
 
 .slider__item button {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100%;
   width: 100%;
   border: none;

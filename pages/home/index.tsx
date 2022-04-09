@@ -168,7 +168,12 @@ export default function HomePage() {
                       <button
                         onClick={() => router.push(`/game/${game}`)}
                         aria-label={gameLabels[index]}
-                        className={styles.slider_item}></button>
+                        className={styles.slider_item}
+                        >
+                          <Image src={`/lvl/lvl${index+1}.svg)`} width ={"100%"} height = {"100%"} aria-label={gameLabels[index]}>
+
+                          </Image>
+                        </button>
                     </div>
                   );
                 })}

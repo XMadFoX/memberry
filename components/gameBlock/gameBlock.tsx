@@ -23,7 +23,7 @@ export default function GameBlock({
   id,
 }: {
   children: ReactChild;
-  id: string;
+  id?: string;
 }) {
   const [userHp, setUserHp] = useState(9);
   const [enemyHp, setEnemyHp] = useState(9);
@@ -75,7 +75,7 @@ export default function GameBlock({
                   alt="Рыцарь"
                 />
               </div>
-              <div className={styles.hero__item}>
+              <div className={styles.hero__item} style = {id == "knight-move" ? {top:"-67px"} : id == "remember-squares" ? {top: "-64px"} : {}}>
                 <Image
                   src={`/game/enemies/${id || 'dragon'}.svg`}
                   height={230}

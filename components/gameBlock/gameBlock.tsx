@@ -40,6 +40,13 @@ export default function GameBlock({
     if (enemyHp >= prevEnemyHp) return;
   }, [enemyHp]);
 
+  // prevent accident tab closing
+  const handleClose = useCallback((e) => {
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  }, []);
+
   return (
     <div
       className={styles.game_page}

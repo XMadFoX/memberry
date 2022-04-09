@@ -1,4 +1,5 @@
 import { getRandomIntMinMax } from '@lib/random';
+import { Button } from '@mantine/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../gameBlock/gameBlock';
 import GameFinished from '../GameFinished';
@@ -145,6 +146,32 @@ export default function FillingSquares() {
 
   return (
     <>
+      <div className={styles.info}>
+        {showRight ? (
+          userWrong === -1 && (
+            <>
+              <h2 className={styles.title}>
+                Запомните расположение закрашенных квадратов
+              </h2>
+              <Button onClick={() => start()}>Запомнил</Button>
+            </>
+          )
+        ) : (
+          <h2 className={styles.title}>Закрасьте квадраты как было показано</h2>
+        )}
+        {won && (
+          <>
+            <h2 className={styles.title}>Правильно!</h2>
+            <Button onClick={() => newGame()}>Дальше</Button>
+          </>
+        )}
+        {userWrong > 0 && (
+          <>
+            <h2 className={styles.title}>Не правильно!</h2>
+            <Button onClick={() => newGame()}>Дальше</Button>
+          </>
+        )}
+      </div>
       <div
         className={styles.container}
         style={{
@@ -167,13 +194,6 @@ export default function FillingSquares() {
             }></button>
         ))}
       </div>
-      {showRight && userWrong === -1 && (
-        <button onClick={() => start()}>Запомнил</button>
-      )}
-      {(won || userWrong > 0) && (
-        <button onClick={() => newGame()}>Дальше</button>
-      )}
-      {userWrong > 0 && 'Проиграл'}
     </>
   );
 }

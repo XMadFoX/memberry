@@ -5,7 +5,7 @@ import GameBlock from '@components/gameBlock/gameBlock';
 
 export default function Index() {
   return (
-    <GameBlock>
+    <GameBlock id = "schulte">
       <SchulteTable />
     </GameBlock>
   );

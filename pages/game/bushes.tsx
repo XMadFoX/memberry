@@ -3,7 +3,7 @@ import GameBlock from '@components/gameBlock/gameBlock';
 
 export default function BushesPAge() {
   return (
-    <GameBlock>
+    <GameBlock id="bushes">
       <Bushes />
     </GameBlock>
   );

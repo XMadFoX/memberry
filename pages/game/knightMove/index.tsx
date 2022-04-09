@@ -4,7 +4,7 @@ import KnightMove from './knightMove';
 
 export default function Index() {
   return (
-    <GameBlock>
+    <GameBlock id = "knight-move">
       <KnightMove />
     </GameBlock>
   );

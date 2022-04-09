@@ -18,7 +18,13 @@ interface GameContextI {
 const GameContext = createContext<GameContextI>({} as GameContextI);
 export { GameContext };
 
-export default function GameBlock({ children }: { children: ReactChild }) {
+export default function GameBlock({
+  children,
+  id,
+}: {
+  children: ReactChild;
+  id: string;
+}) {
   const [userHp, setUserHp] = useState(9);
   const [enemyHp, setEnemyHp] = useState(9);
 
@@ -35,7 +41,9 @@ export default function GameBlock({ children }: { children: ReactChild }) {
   }, [enemyHp]);
 
   return (
-    <div className={styles.game_page}>
+    <div
+      className={styles.game_page}
+      style={{ backgroundImage: `url(/bg/${id ? id : 'default'}.webp)` }}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.timer}>
@@ -75,10 +83,10 @@ export default function GameBlock({ children }: { children: ReactChild }) {
               </div>
               <div className={styles.hero__item}>
                 <Image
-                  src={`/game/dragon.svg`}
+                  src={`/game/enemies/${id || 'dragon'}.svg`}
                   height={230}
                   width={230}
-                  alt="Враг: дракон"
+                  alt="Враг"
                 />
               </div>
             </div>

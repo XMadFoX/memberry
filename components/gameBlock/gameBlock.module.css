@@ -1,6 +1,5 @@
 .game_page {
   min-height: 100vh;
-  background-image: url(../../public/img/game_backgroung.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

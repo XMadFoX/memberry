@@ -1,6 +1,7 @@
 import { getRandomIntMinMax } from '@lib/random';
 import React, { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../gameBlock/gameBlock';
+import GameFinished from '../GameFinished';
 import styles from './squares.module.css';
 
 export default function FillingSquares() {
@@ -14,6 +15,7 @@ export default function FillingSquares() {
   const [userWrong, setUserWrong] = useState<number>(-1);
 
   const [won, setWon] = useState(false);
+  const [levelState, setLevelState] = useState<string | undefined>();
 
   const { startTimer, timeLeft, userHp, enemyHp, setUserHp, setEnemyHp } =
     useContext(GameContext);
@@ -115,6 +117,31 @@ export default function FillingSquares() {
     if (showRight) return;
     guess(idx);
   };
+
+  useEffect(() => {
+    if (enemyHp > 0) return;
+    startTimer(null);
+    console.log('level completed');
+    setLevelState('completed');
+  }, [enemyHp]);
+
+  useEffect(() => {
+    if (userHp > 0) return;
+    startTimer(null);
+    console.log('level failed');
+    setLevelState('failed');
+  }, [userHp]);
+
+  if (levelState)
+    return (
+      <GameFinished
+        won={levelState === 'completed'}
+        restart={() => {
+          setLevelState(undefined);
+          newGame();
+        }}
+      />
+    );
 
   return (
     <>

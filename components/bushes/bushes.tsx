@@ -198,6 +198,7 @@ export default function Bushes() {
 
   useEffect(() => {
     if (enemyHp > 0) return;
+    startTimer(null);
     console.log('level completed');
     setLevelState('completed');
   }, [enemyHp]);

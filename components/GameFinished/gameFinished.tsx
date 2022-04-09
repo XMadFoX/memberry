@@ -1,14 +1,22 @@
-import { Button } from '@mantine/core';
 import Link from 'next/link';
+import { Button } from '@mantine/core';
+import useSave from '@/lib/useSave';
+import { useEffect } from 'react';
 import styles from './gameFinished.module.css';
 
-export default function gameFinished({
+export default function GameFinished({
   won,
   restart,
 }: {
   won: boolean;
   restart: () => void;
 }) {
+  const { completed, setCompleted, storyMode, setStoryMode } = useSave();
+
+  useEffect(() => {
+    if (won) setCompleted();
+  }, []);
+
   return (
     <div className={styles.finished}>
       <h2 className={styles.finished_title}>
@@ -21,7 +29,7 @@ export default function gameFinished({
           </Button>
         </Link>
         <Button color="lime" onClick={() => (won ? {} : restart())}>
-          {won ? 'Следующий уровень' : 'Попробовать снова'}
+          {won && storyMode ? 'Следующий уровень' : 'Попробовать снова'}
         </Button>
       </div>
     </div>

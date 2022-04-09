@@ -20,8 +20,8 @@
     position: relative;
     border-radius: 2px;
     cursor: pointer;
-    width: 64px;
-    height: 64px;
+    width: 69px;
+    height: 90px;
 }
 .card.flipped .inner {
     transform: rotateY(180deg);
@@ -36,10 +36,16 @@
 
 .back, .front {
     position: absolute;
-    
+
 }
 .card .front {
-    border: 1px solid #1da65f;
+    background-size: contain;
+    top: 2px;
+    left: 10px;
+    width: 58px;
+    height: 86px;
+    background-repeat: no-repeat;
+    background-position: center;    
     background-color: #fff;
     transform: rotateY(180deg);
 }
@@ -48,7 +54,12 @@
 }
 
 .card .back {
-    background-color: rgb(243, 250, 46);
+    width: 80px;
+    height: 90px;
+    background-image: url(../../../public/game/rememberCard/question.svg) ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     transition: 0.3s;
 }
 

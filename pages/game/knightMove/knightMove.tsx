@@ -195,6 +195,7 @@ const KnightMove = () => {
         setEnemyHp(9)
         setArrayMove([]);
         setLooseGame(0);
+        setDisable(0)
       }}/>
     )
   }  

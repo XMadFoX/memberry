@@ -4,26 +4,18 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import GameFinished from '@/components/GameFinished/gameFinished';
 import { GameContext } from '@components/gameBlock/gameBlock';
+import { BackgroundImage } from '@mantine/core';
 interface cardI {
   id: number;
   img: string;
 }
 
 const cards: cardI[] = [
-  { id: 1, img: 'banana' },
-  { id: 2, img: 'bread' },
-  { id: 3, img: 'burger' },
-  { id: 4, img: 'corn' },
-  { id: 5, img: 'croissant' },
-  { id: 6, img: 'cucumber' },
-  { id: 7, img: 'cupcake' },
-  { id: 8, img: 'doughnut' },
-  { id: 9, img: 'french_fries' },
-  { id: 10, img: 'ice_cream' },
-  { id: 11, img: 'meat' },
-  { id: 12, img: 'pizza' },
-  { id: 13, img: 'strawberry' },
-  { id: 14, img: 'watermelon' },
+  { id: 1, img: 'kentaur' },
+  { id: 2, img: 'kon' },
+  { id: 3, img: 'kust' },
+  { id: 4, img: 'mumia' },
+  { id: 5, img: 'ridzor' },
 ];
 
 function RememberCard() {
@@ -55,7 +47,7 @@ function RememberCard() {
     if (width !== 0) {
       width /= 2;
     }
-    
+
     arrayTo = [];
 
     for (let i = 0; i < width + 2; i++) {
@@ -111,7 +103,7 @@ function RememberCard() {
   }, [openedCard]);
   const flipCard = (index: number) => {
     if (firstClick == 0) {
-      startTimer(arrayCards.length ** 2 /2);
+      startTimer(arrayCards.length ** 2 / 2);
     }
     setFirstClik(1);
     for (let i = 0; i < openedCard.length; i++) {
@@ -123,13 +115,13 @@ function RememberCard() {
       setOpenedCard((opened) => [...opened, index]);
     }
   };
-  useEffect (()=>{
-    console.log(enemyHp)
-    if(enemyHp == 0) {
-      setWinGame(1)
-      console.log(winGame)
+  useEffect(() => {
+    console.log(enemyHp);
+    if (enemyHp == 0) {
+      setWinGame(1);
+      console.log(winGame);
     }
-  },[enemyHp])
+  }, [enemyHp]);
   if (looseGame == 1) {
     return (
       <GameFinished
@@ -148,9 +140,7 @@ function RememberCard() {
     );
   }
   if (winGame == 1) {
-    return (
-      <GameFinished won={true} restart={() => {}} />
-    )
+    return <GameFinished won={true} restart={() => {}} />;
   }
   return (
     <div className={styles.game}>
@@ -166,22 +156,12 @@ function RememberCard() {
               className={styles.card + ' ' + (isFlipped ? styles.flipped : '')}
               onClick={() => flipCard(index)}>
               <div className={styles.inner}>
-                <div className={styles.front}>
-                  <Image
-                    src={`/game/rememberCard/${item.img}.svg`}
-                    height={128}
-                    width={128}
-                    alt="карточка"
-                  />
-                </div>
-                <div className={styles.back}>
-                  <Image
-                    src={`/game/rememberCard/question.svg`}
-                    height={128}
-                    width={128}
-                    alt="карточка"
-                  />
-                </div>
+                <div
+                  className={styles.front}
+                  style={{
+                    backgroundImage: `url(/game/rememberCard/${item.img}.svg)`,
+                  }}></div>
+                <div className={styles.back}></div>
               </div>
             </div>
           );

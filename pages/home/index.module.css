@@ -1,4 +1,3 @@
-
 .page {
   background-image: url(../../public/img/background.webp);
   background-repeat: no-repeat;
@@ -9,7 +8,6 @@
   min-height: calc(100vh - 50px);
   display: flex;
   align-items: center;
-
 }
 .menu {
   visibility: hidden;
@@ -44,7 +42,6 @@
   height: 73px;
   justify-content: center;
   transition: 0.2s;
-
 }
 .levels__element.active {
   background-color: rgb(28, 244, 82);
@@ -54,10 +51,13 @@
   background-image: url(../../public/icons/zamok_2.svg);
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #E03838;
+  background-color: #e03838;
 }
 
-.levels__element  span{
+.levels__element button {
+  appearance: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
   height: 100%;
   width: 100%;
   border-radius: 100%;
@@ -74,7 +74,7 @@
   max-width: 550px;
 
   background: #94604c;
-  border: 10px solid #C1C1C1;
+  border: 10px solid #c1c1c1;
   box-shadow: 0px 5px 11px rgba(0, 0, 0, 0.6);
   border-radius: 38px;
   position: relative;
@@ -115,7 +115,7 @@
   background: #95614d;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.53);
   border-radius: 27px;
-  border: 10px solid #C1C1C1;
+  border: 10px solid #c1c1c1;
 }
 
 .slider__button {
@@ -131,7 +131,7 @@
   left: -40px;
 }
 .slider__next {
-  cursor: pointer;                                                                                 
+  cursor: pointer;
   right: -40px;
 }
 .levels__element:hover {
@@ -149,7 +149,7 @@
   }
   .btn {
     max-width: 300px;
-    border: 8px solid #C1C1C1;
+    border: 8px solid #c1c1c1;
   }
   .btn__text {
     font-size: 80px;
@@ -168,7 +168,7 @@
     margin-bottom: -65px;
   }
   .btn {
-    border: 6px solid #C1C1C1;
+    border: 6px solid #c1c1c1;
     max-width: 300px;
   }
   .btn__text {
@@ -195,7 +195,7 @@
   .menu {
     transition: 0.4s;
     visibility: visible;
-    background-color: #313131a9 ;
+    background-color: #313131a9;
     width: 0;
     overflow: hidden;
     height: 100%;
@@ -217,20 +217,20 @@
     height: 70px;
   }
   .burger_close_menu span::before,
-  .burger_close_menu span::after { 
+  .burger_close_menu span::after {
     top: 30px;
     left: 10px;
     content: '';
-    position: absolute;   
+    position: absolute;
     width: 50px;
     height: 7px;
     background-color: black;
     border-radius: 4px;
   }
-  .burger_close_menu span::before{
+  .burger_close_menu span::before {
     transform: rotate(45deg);
   }
-  .burger_close_menu span::after{
+  .burger_close_menu span::after {
     transform: rotate(-45deg);
   }
 
@@ -242,15 +242,13 @@
     z-index: 1002;
     color: #fff;
     font-size: 20px;
-
-
   }
   .menu__item {
     line-height: 55px;
     width: 205px;
     height: 64px;
-    background-color: #94604C;
-    border: 4px solid #C1C1C1;
+    background-color: #94604c;
+    border: 4px solid #c1c1c1;
     box-shadow: 0px 5px 11px rgba(0, 0, 0, 0.6);
     border-radius: 38px;
     text-align: center;
@@ -292,10 +290,10 @@
   .slider__item {
     min-width: 160px;
     height: 150px;
-    border: 8px solid #C1C1C1;
+    border: 8px solid #c1c1c1;
   }
   .btn {
-    border: 4px solid #C1C1C1;
+    border: 4px solid #c1c1c1;
     max-width: 200px;
   }
   .btn__text {
@@ -321,7 +319,7 @@
     padding-left: 20px;
   }
   .slider__item {
-    border: 6px solid #C1C1C1;
+    border: 6px solid #c1c1c1;
     min-width: 110px;
     height: 110px;
   }
@@ -335,7 +333,7 @@
     font-size: 30px;
   }
   .btn {
-    border: 3px solid #C1C1C1;
+    border: 3px solid #c1c1c1;
     max-width: 180px;
   }
   .btn__text {

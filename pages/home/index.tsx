@@ -1,10 +1,10 @@
-import type { NextPage } from 'next';
 import styles from './index.module.css';
-import Link from 'next/link';
-import { TextInput, Button, Group, Box, Center } from '@mantine/core';
 import Image from 'next/image';
-import Header from '../../components/header';
-import { useRef, useState } from 'react';
+import Header from '@components/header';
+import { useEffect, useRef, useState } from 'react';
+import { useLocalStorageValue } from '@mantine/hooks';
+import { NextRouter, useRouter } from 'next/router';
+import useSave from '@/lib/useSave';
 
 function checkWidth(element: any) {
   return element.offsetWidth;
@@ -14,14 +14,43 @@ function countSliderItem(parent: any, child: any) {
   return Math.trunc(parent.offsetWidth / child.offsetWidth);
 }
 
-const Start: NextPage = () => {
-  const [item, setItem] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+export default function HomePage() {
+  const router = useRouter();
+  const [games, setGames] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const slider = useRef<HTMLDivElement>(null);
   const slider_block = useRef<HTMLDivElement>(null);
   const slider__item = useRef<HTMLDivElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   let position = 0;
   let counterHandler = 0;
+
+  const { completed, setStoryMode } = useSave();
+
+  const [levels, setLevels] = useState<string[] | undefined>();
+  const [localLevels, setLocalsLevels] = useLocalStorageValue({
+    key: 'levels',
+    serialize: (value: string[]) => JSON.stringify(value),
+    deserialize: (value: string) => (value ? JSON.parse(value) : []),
+    defaultValue: [],
+  });
+
+  useEffect(() => {
+    if (localLevels?.length > 0) {
+      setLevels(localLevels);
+      return;
+    }
+    let _levels = [
+      'bushes',
+      'remember-squares',
+      'knight-move',
+      'schulte',
+      'card-pairs',
+    ];
+    _levels = _levels.sort(() => Math.random() - 0.5);
+    setLevels(_levels);
+    setLocalsLevels(_levels);
+  }, []);
+
   const prevHandler = () => {
     let width = checkWidth(slider__item.current);
 
@@ -31,7 +60,7 @@ const Start: NextPage = () => {
     ) {
       counterHandler -= 1;
       position += width + 70;
-      if(slider.current !== null) {
+      if (slider.current !== null) {
         slider.current.childNodes.forEach((element: any) => {
           element.style = `transform: translateX(${position}px)`;
         });
@@ -61,7 +90,6 @@ const Start: NextPage = () => {
     if (menu.current !== null) {
       menu.current.classList.add(styles.active);
     }
-    
   };
   const closeMenu = () => {
     if (menu.current !== null) {
@@ -93,93 +121,32 @@ const Start: NextPage = () => {
           <div className={styles.block}>
             <nav className={styles.nav}>
               <ul className={styles.levels}>
-                <li className={styles.levels__element}>
-                  <Link href="/game/rememberCard">
-                    <a>
-                      <span>1</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element}>
-                  <Link href="/game/schulteTable">
-                    <a>
-                      <span>2</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element}>
-                  <Link href="/game/knightMove">
-                    <a>
-                      <span>3</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>4</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>5</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>6</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>7</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>8</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>9</span>
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={styles.levels__element + ' ' + styles.not_active}>
-                  <Link href="#">
-                    <a>
-                      <span>10</span>
-                    </a>
-                  </Link>
-                </li>
+                {levels &&
+                  [...new Array(10)].map((item, index) => (
+                    <LevelItem
+                      key={index}
+                      levels={levels!}
+                      lvl={index}
+                      gamesCompleted={completed}
+                      setStoryMode={setStoryMode}
+                      router={router}
+                    />
+                  ))}
               </ul>
             </nav>
-            <button className={styles.btn}>
+            <button
+              className={styles.btn}
+              onClick={() => {
+                levels &&
+                  router.push(
+                    `/game/${levels[completed < 5 ? completed : completed - 5]}`
+                  );
+              }}>
               <span className={styles.btn__text}>играть</span>
             </button>
             <nav className={styles.slider} ref={slider_block}>
               <div className={styles.slider_track} ref={slider}>
-                {item.map((i) => {
+                {games.map((i) => {
                   return (
                     <div
                       key={i}
@@ -214,6 +181,40 @@ const Start: NextPage = () => {
       </main>
     </div>
   );
-};
+}
 
-export default Start;
+const LevelItem = ({
+  levels,
+  lvl,
+  gamesCompleted,
+  setStoryMode,
+  router,
+}: {
+  levels: string[];
+  lvl: number;
+  gamesCompleted: number;
+  setStoryMode: (storyMode: boolean) => void;
+  router: NextRouter;
+}) => {
+  const play = () => {
+    setStoryMode(true);
+    router.push(`/game/${levels[lvl < 5 ? lvl : lvl - 5]}`);
+  };
+
+  useEffect(() => {
+    // TODO: prefetch accessible level
+    // if (lvl >= gamesCompleted) router.prefetch(`/game/${lvl}`);
+  }, []);
+
+  return (
+    <li
+      className={`${styles.levels__element} ${
+        lvl >= gamesCompleted + 1 ? styles.not_active : ''
+      }`}>
+      {/* {levels[lvl < 5 ? lvl : lvl - 5]} */}
+      <button onClick={() => play()} disabled={lvl >= gamesCompleted + 1}>
+        {lvl + 1}
+      </button>
+    </li>
+  );
+};

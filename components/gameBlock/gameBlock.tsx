@@ -46,7 +46,13 @@ export default function GameBlock({ children }: { children: ReactChild }) {
           <div className={styles.leave}>
             <Link href="/home">
               <a>
-                <span></span>
+                <img
+                  src="/icons/close.svg"
+                  width={64}
+                  height={64}
+                  style={{ padding: '0.5rem' }}
+                  alt="Выйти из игры"
+                />
               </a>
             </Link>
           </div>

@@ -4,7 +4,7 @@ import SchulteTable from './schulteTable/schulteTable';
 
 export default function Schulte() {
   return (
-    <GameBlock>
+    <GameBlock id = "schulte">
       <SchulteTable />
     </GameBlock>
   );

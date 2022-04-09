@@ -1,6 +1,12 @@
 import styles from './gameBlock.module.css';
 import Image from 'next/image';
-import { createContext, ReactChild, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactChild,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import Link from 'next/link';
 import Heart from './heart';
 import useTimer from './useTimer';
@@ -88,7 +94,15 @@ export default function GameBlock({
                   alt="Рыцарь"
                 />
               </div>
-              <div className={styles.hero__item} style = {id == "knight-move" ? {top:"-67px"} : id == "remember-squares" ? {top: "-64px"} : {}}>
+              <div
+                className={styles.hero__item}
+                style={
+                  id == 'knight-move'
+                    ? { top: '-67px' }
+                    : id == 'remember-squares'
+                    ? { top: '-64px' }
+                    : {}
+                }>
                 <Image
                   src={`/game/enemies/${id || 'dragon'}.svg`}
                   height={230}

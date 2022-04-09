@@ -16,7 +16,20 @@ function countSliderItem(parent: any, child: any) {
 
 export default function HomePage() {
   const router = useRouter();
-  const [games, setGames] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [games, setGames] = useState<string[]>([
+    'schulte',
+    'knight-move',
+    'card-pairs',
+    'bushes',
+    'remember-squares',
+  ]);
+  const gameLabels = [
+    'Таблица шульте',
+    'Передвижения коня',
+    'Пары карточек',
+    'Порядок кустов',
+    'Запомни квадраты',
+  ];
   const slider = useRef<HTMLDivElement>(null);
   const slider_block = useRef<HTMLDivElement>(null);
   const slider__item = useRef<HTMLDivElement>(null);
@@ -75,7 +88,7 @@ export default function HomePage() {
       );
     }
     let width = checkWidth(slider__item.current);
-    if (counterHandler < 10) {
+    if (counterHandler < games.length) {
       counterHandler += 1;
       position -= width + 70;
       if (slider.current !== null) {
@@ -146,12 +159,17 @@ export default function HomePage() {
             </button>
             <nav className={styles.slider} ref={slider_block}>
               <div className={styles.slider_track} ref={slider}>
-                {games.map((i) => {
+                {games.map((game, index) => {
                   return (
                     <div
-                      key={i}
+                      key={game}
                       className={styles.slider__item}
-                      ref={slider__item}></div>
+                      ref={slider__item}>
+                      <button
+                        onClick={() => router.push(`/game/${game}`)}
+                        aria-label={gameLabels[index]}
+                        className={styles.slider_item}></button>
+                    </div>
                   );
                 })}
               </div>

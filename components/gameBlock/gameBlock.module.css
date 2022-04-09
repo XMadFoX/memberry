@@ -17,13 +17,11 @@
 
 .leave {
   position: relative;
-  width: 70px;
-  height: 70px;
+  height: 64px;
+  width: 64px;
   right: 10px;
   float: right;
 }
-.leave span::before,
-.leave span::after,
 .leave span {
   top: 15px;
   right: 0px;
@@ -51,8 +49,6 @@
   margin: 0 auto;
 }
 .heart {
-  
- 
   display: flex;
   justify-content: space-between;
   margin-bottom: 80px;
@@ -102,7 +98,6 @@
   right: 15px;
 }
 
-
 .timer {
   color: #fff;
   position: relative;
@@ -114,7 +109,6 @@
   font-size: 50px;
 }
 
-
 @media (max-width: 1000px) {
   .hero__item:first-child {
     width: 100px;
@@ -125,7 +119,6 @@
     width: 180px;
     right: -6px;
   }
-  
 }
 @media (max-width: 770px) {
   .hero__item:first-child {
@@ -137,7 +130,6 @@
     width: 180px;
     right: -60px;
   }
-  
 }
 
 @media (max-width: 500px) {
@@ -151,10 +143,8 @@
     top: 0;
   }
 }
-@media (max-width: 500px)  {
-  .hero__item:first-child{
+@media (max-width: 500px) {
+  .hero__item:first-child {
     top: 10px;
   }
 }
-
-

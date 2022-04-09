@@ -236,7 +236,7 @@ const LevelItem = ({
       }`}>
       {/* {levels[lvl < 5 ? lvl : lvl - 5]} */}
       <button onClick={() => play()} disabled={lvl >= gamesCompleted + 1}>
-        {lvl + 1}
+        {lvl < gamesCompleted + 1 && lvl + 1}
       </button>
     </li>
   );

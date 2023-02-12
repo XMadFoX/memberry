@@ -7,9 +7,9 @@ import styles from '../register/register.module.css';
 const getTitle = (type: string): string => {
   switch (type) {
     case 'email':
-      return 'Почта подтверждена';
+      return 'Email confirmed';
     default:
-      return 'Аккаунт подтвержден';
+      return 'Account confirmed';
   }
 };
 
@@ -24,10 +24,10 @@ export default function Success() {
       <Box className={styles.form_container}>
         <div>
           <h1>{getTitle(query?.type as string)}</h1>
-          <p>Вы можете закрыть эту вкладку или</p>
+          <p>You can close the tab or</p>
           <Link href="/">
             <a style={{ textDecoration: 'blue underline' }}>
-              Вернуться на главную страницу
+              Return to home page
             </a>
           </Link>
         </div>

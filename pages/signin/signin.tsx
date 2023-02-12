@@ -1,6 +1,5 @@
 import { TextInput, Button, Group, Box, Center } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import 'dayjs/locale/ru';
 import style from './signin.module.css';
 import Link from 'next/link';
 
@@ -28,11 +27,11 @@ function Register() {
 
     validate: (values) => ({
       email: !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
-        ? 'Неверная почта'
+        ? 'Wrong email format'
         : null,
       password:
         values.password.length < 8 || values.password.length > 32
-          ? 'Пароль должен состоять из 8-32 символов'
+          ? 'Password must be between 8-32 characters'
           : null,
     }),
   });
@@ -56,7 +55,7 @@ function Register() {
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <h1 className={style.title}>Вход</h1>
               <TextInput
-                label="Почта"
+                label="Email"
                 type="email"
                 name="email"
                 placeholder="your@email.com"
@@ -64,7 +63,7 @@ function Register() {
                 {...form.getInputProps('email')}
               />
               <TextInput
-                label="Пароль"
+                label="Password"
                 type="password"
                 name="password"
                 placeholder="Qwerty1234."
@@ -80,15 +79,15 @@ function Register() {
               )}
               <Group position="center" mt="md">
                 <Button type="submit" disabled={loginResult.fetching}>
-                  Войти
+                  Login
                 </Button>
               </Group>
               <nav className={style.navbar}>
                 {/* <Link href="/signin/recovery">
-                <a className={style.navbar__element}>Забыли пароль?</a>
+                <a className={style.navbar__element}>Forgot password</a>
               </Link> */}
                 <Link href="/register">
-                  <a className={style.navbar__element}>Зарегистрироваться</a>
+                  <a className={style.navbar__element}>Register</a>
                 </Link>
               </nav>
             </form>
@@ -99,13 +98,13 @@ function Register() {
                 alignItems: 'center',
                 justifyItems: 'center',
               }}>
-              <h1>Вход выполнен успешно!</h1>
+              <h1>Login Successful</h1>
               <p>
-                Вы будете перенаправлены на{' '}
+                You will be redirected to the{' '}
                 <Link href="" replace>
-                  <a>домашнюю страницу</a>
+                  <a>home page</a>
                 </Link>{' '}
-                в течении 5 секунд
+                within 5 seconds
               </p>
             </div>
           )}

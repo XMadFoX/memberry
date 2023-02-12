@@ -16,11 +16,11 @@ export default function Birthday({
   useEffect(() => {
     const now = new Date();
     if (value && new Date(value) > now) {
-      setError('Дата рождения не может быть больше текущей');
+      setError('Date cannot be in the future');
       return;
     }
     if (value && calcAge(value) < 2) {
-      setError('Вы слишком молоды');
+      setError("You're too young to use this service");
       return;
     }
     setError(false);
@@ -29,19 +29,19 @@ export default function Birthday({
   return (
     <div>
       <DatePicker
-        locale="ru"
         allowFreeInput
         required
         value={value}
         name="birthday"
         onChange={setValue}
-        placeholder="Выберите дату"
+        placeholder="Choose date"
         disabled={fetching}
         error={error}
-        label="Дата рождения"
+        label="Date of birth"
       />
       <small style={{ opacity: 0.5 }}>
-        Эта информация будет использована для адаптации сложности
+        {/* TODO:  */}
+        This information will be used to adapt the difficulty of the tasks
       </small>
     </div>
   );

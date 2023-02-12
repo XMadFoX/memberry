@@ -9,9 +9,9 @@ export default function EmailSent() {
           alignItems: 'center',
           justifyItems: 'center',
         }}>
-        <h1>Письмо отправлено</h1>
-        <p>Проверьте почту для подтверждения регистрации</p>
-        <small>Письмо действительно 5 минут.</small>
+        <h1>Email sent</h1>
+        <p>Check your email to verify email</p>
+        <small>Link is valid within 5 minutes.</small>
         <Image
           src="/illustrations/undraw_mail_sent_re_0ofv.svg"
           alt=""

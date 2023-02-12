@@ -1,6 +1,5 @@
 import { TextInput, Button, Group, Box, Center } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import 'dayjs/locale/ru';
 import style from './recovery.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -15,17 +14,17 @@ function Register() {
 
     validate: (values) => ({
       email: !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
-        ? 'Неверная почта'
+        ? 'Wrong email format'
         : null,
       password:
         values.password.length < 8 || values.password.length > 32
-          ? 'Пароль должен состоять из 8-32 символов'
+          ? 'Password must be between 8-32 characters'
           : !/^[A-Za-z\d@$!%*?&#]$/.test(values.password)
-          ? 'Пароль должен содержать только буквы, цифры и специальные символы'
+          ? 'Password must contain only letters, numbers and special characters'
           : null,
       confirmPassword:
         values.confirmPassword != values.password
-          ? 'Пароли не совпадает'
+          ? "Passwords don't match"
           : null,
     }),
   });
@@ -39,9 +38,9 @@ function Register() {
           className={style.form_container}>
           {!emailSent ? (
             <form onSubmit={() => setEmailSent(true)}>
-              <h1 className={style.title}>Ввостановления аккаунта</h1>
+              <h1 className={style.title}>Account recovery</h1>
               <TextInput
-                label="Введите почту"
+                label="Email"
                 placeholder="your@email.com"
                 {...form.getInputProps('email')}
               />
@@ -50,20 +49,25 @@ function Register() {
                   type="submit"
                   className={style.button_email}
                   id="button-email">
-                  Подтвердить
+                  Submit
                 </Button>
               </Group>
               <nav className={style.navbar}>
                 <Link href="/signin">
-                  <a className={style.navbar__element}>Вернуться</a>
+                  <a className={style.navbar__element}>Login</a>
                 </Link>
               </nav>
             </form>
           ) : (
             <>
-            <img alt="" height={256} width={256} src='/illustrations/undraw_mail_sent_re_0ofv.svg'/>
-              <h1>Письмо отправлено</h1>
-              <h2>Письмо для восстановления пароля отправлено Вам на почту</h2>
+              <img
+                alt=""
+                height={256}
+                width={256}
+                src="/illustrations/undraw_mail_sent_re_0ofv.svg"
+              />
+              <h1>Email sent</h1>
+              <h2>Recovery link sent to your email</h2>
             </>
           )}
         </Box>

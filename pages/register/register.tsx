@@ -1,6 +1,5 @@
 import { TextInput, Button, Group, Box, Center } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import 'dayjs/locale/ru';
 import { useMutation } from 'urql';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -38,24 +37,24 @@ export default function Register() {
     validate: (values) => ({
       username:
         values.username.length < 2 || values.username.length > 16
-          ? 'Имя пользователя должно состоять из 2-16 символов '
+          ? 'Username must be between 2-16 characters '
           : !/^[A-z0-9_]/.test(values.username)
-          ? 'Имя пользователя может содержать только буквы, цифры и нижнюю черту'
+          ? 'Username can contain only letters, numbers and underscore'
           : null,
 
       email: !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
-        ? 'Неверная почта'
+        ? 'Wrong email format'
         : null,
       password:
         values.password.length < 8 || values.password.length > 32
-          ? 'Пароль должен состоять из 8-32 символов'
+          ? 'Password must be between 8-32 characters'
           : !/^[A-Za-z\d@$!%*?&#]{8,32}$/.test(values.password)
-          ? 'Пароль должен содержать только буквы, цифры и специальные символы'
+          ? 'Password must contain only letters, numbers and special characters'
           : null,
 
       confirmPassword:
         values.confirmPassword != values.password
-          ? 'Пароли не совпадает'
+          ? "Passwords don't match"
           : null,
     }),
   });
@@ -72,9 +71,9 @@ export default function Register() {
           {registerResult?.data?.register === 'ok' && <EmailSent />}
           {registerResult?.data?.register !== 'ok' && (
             <form onSubmit={form.onSubmit(handleSubmit)}>
-              <h1 className={styles.title}>Регистрация</h1>
+              <h1 className={styles.title}>Registration</h1>
               <TextInput
-                label="Почта"
+                label="Email"
                 type="email"
                 name="email"
                 required
@@ -83,7 +82,7 @@ export default function Register() {
                 {...form.getInputProps('email')}
               />
               <TextInput
-                label="Имя пользователя"
+                label="Username"
                 type="text"
                 name="username"
                 required
@@ -97,7 +96,7 @@ export default function Register() {
                 setValue={setBirthday}
               />
               <TextInput
-                label="Пароль"
+                label="Password"
                 name="password"
                 required
                 type="password"
@@ -106,7 +105,7 @@ export default function Register() {
                 {...form.getInputProps('password')}
               />
               <TextInput
-                label="Подтвердите пароль"
+                label="Repeat password"
                 name="passwordConfirm"
                 required
                 type="password"
@@ -116,12 +115,10 @@ export default function Register() {
               />
               <Group position="center" direction="column" spacing="xs" mt="md">
                 <Button type="submit" disabled={registerResult.fetching}>
-                  {registerResult.fetching
-                    ? 'Подождите...'
-                    : 'Зарегистрироваться'}
+                  {registerResult.fetching ? 'Wait...' : 'Register'}
                 </Button>
                 <Link href="/signin">
-                  <a className={styles.navbar__element}>Вернуться</a>
+                  <a className={styles.navbar__element}>Login</a>
                 </Link>
               </Group>
             </form>
